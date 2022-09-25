@@ -15,16 +15,30 @@ const postSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		AvatarURL: {
+			type: String,
+			required: true,
+		},
 
 		content: {
 			type: String,
 			required: true,
 		},
-
-		creator: {
-			type: Schema.Types.ObjectId,
+		date: {
+			type: String,
 			required: true,
 		},
+
+		creator: {
+			type: String,
+			required: true,
+		},
+		Comments: [
+			{
+				type: Schema.Types.ObjectID,
+				ref: 'Comment',
+			},
+		],
 	},
 	{ timestamps: true }
 );

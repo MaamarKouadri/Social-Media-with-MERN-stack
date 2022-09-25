@@ -87,7 +87,6 @@ const Header = () => {
 						<Tooltip title='Open settings'>
 							<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
 								<Avatar
-									alt='Remy Sharp'
 									src={require(`../Images/${img}`)}
 									sx={{ width: 56, height: 56 }}
 								/>

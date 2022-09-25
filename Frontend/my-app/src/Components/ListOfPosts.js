@@ -9,72 +9,35 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
+import { useState } from 'react';
 import Card from './Card';
+import Box from '@mui/material/Box';
 import InputBox from '../Components/InputBox';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { SendPost, getAllPosts } from '../Store/PostAction';
+import {
+	ImportPosts,
+	EmptyPosts,
+	AddUserNotToSee,
+	RefreshPostOfUser,
+} from '../Store/PostsSlice';
 
 export default function ListOfPosts() {
 	const axios = require('axios');
-	/*
-	const MakeApiCall = async () => {
-		console.log('We are trying to create a new Post ');
-		const url = 'http://localhost:5000/Posts/Create';
-		const formdata = new FormData();
-		formdata.append('title', 'Title 2 ');
-		formdata.append('content', 'Algeria is the greatest in the universe ');
-		formdata.append('image');
-		await axios({
-			method: 'post',
-			url: url,
-			body: formdata,
-		})
-			.post(url, {
-				title: 'First Post',
-				content: 'This is the true meaning of life',
-			})
-			.then((res) => console.log(res))
-			.catch((err) => console.log(err));
-	};
-
-	const GetMakeApiCall = () => {
-		console.log('Inside GetMakeApiCall');
-		const url2 =
-			'http://localhost:5000/Posts/post/' + '63092479aa736a2f25658154';
-		axios({
-			method: 'get',
-			url: url2,
-		})
-			.then((res) => {
-				if (res.status != 200) {
-					throw new Error('Failed to fetch status');
-				} else {
-					console.log(res);
-				}
-			})
-			.catch((err) => console.log(err));
-	};
-
-	useEffect(() => {
-		//MakeApiCall();
-		GetMakeApiCall();
-	}, []);
-
-	*/
+	const dispatch = useDispatch();
+	const [PostsList, setPosts] = useState([]);
+	console.log('Posts list inside List Of Posts is ');
+	console.log(PostsList);
 
 	return (
-		<List
+		<Box
 			sx={{
-				width: '100%',
-				maxWidth: 700,
-				bgcolor: 'background.paper',
+				display: 'flex',
+
+				flexDirection: 'column',
 			}}>
-			<Divider variant='inset' component='li' />
-			<ListItem alignItems='flex-start'>
-				<InputBox />
-			</ListItem>
-			<ListItem alignItems='flex-start'>
-				<Card />
-			</ListItem>
-			<Divider variant='inset' component='li' />
-		</List>
+			<InputBox />
+		</Box>
 	);
 }

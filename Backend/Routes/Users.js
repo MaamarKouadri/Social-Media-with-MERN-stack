@@ -91,4 +91,57 @@ router.get('/Email/:email', async (req, res) => {
 	}
 });
 
+router.get('/AllUsers/all', async (req, res, next) => {
+	console.log('Inside retreive all  users route ');
+	try {
+		const AllUsers = await UserDB.find({});
+
+		const AllUsersArray = [];
+
+		let index = 1;
+		AllUsers.forEach(function (loadedUser) {
+			const {
+				FirstName,
+				LastName,
+				email,
+
+				img,
+			} = loadedUser;
+
+			let id = index;
+			let Email = email;
+			let firstName = FirstName;
+			let lastName = LastName;
+			let image = img;
+
+			AllUsersArray.push({ id, firstName, lastName, image, Email });
+			index = index + 1;
+		});
+
+		res.status(200).json(AllUsersArray);
+	} catch (err) {
+		console.log('The error is');
+		console.log(err);
+		res.status(500).json(err);
+	}
+});
+
+router.delete('/:email', async (req, res) => {
+	console.log('');
+	console.log(req);
+	try {
+		const EmailDelete = req.params.email;
+		console.log('User Id is ');
+		console.log(EmailDelete);
+		const field = await UserDB.deleteOne({
+			email: { $in: [EmailDelete] },
+		});
+
+		console.log(field);
+		res.status(200).json('');
+	} catch (err) {
+		res.status(500).json(err);
+	}
+});
+
 module.exports = router;

@@ -1,7 +1,7 @@
 /** @format */
 
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Input from '@mui/material/Input';
@@ -62,6 +62,10 @@ export default function LoginBox() {
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		dispatch(LoginPending());
+	}, []);
 
 	dispatch(LoginPending);
 	const [password, setpassword] = useState('');

@@ -9,93 +9,238 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { randomInt, randomUserName } from '@mui/x-data-grid-generator';
 import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { getAllUsers } from '../Store/userAction';
+import { ErrorBoundary } from 'react-error-boundary';
+import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import axios from 'axios';
+import DataTable from 'react-data-table-component';
 
 export default function Friends() {
-	//const isAuth = useSelector((state) => state.auth.isAuthenticated);
+	function ErrorFallback({ error, resetErrorBoundary }) {
+		return (
+			<div role='alert'>
+				<p>Something went wrong:</p>
+				<pre>{error.message}</pre>
+				<button onClick={resetErrorBoundary}>Try again</button>
+			</div>
+		);
+	}
 
-	//console.log('Is Auth in Friends is  ' + isAuth);
+	const Item = styled(Paper)(({ theme }) => ({
+		backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+		...theme.typography.body2,
+		padding: theme.spacing(1),
+		textAlign: 'center',
+		color: theme.palette.text.secondary,
+	}));
 
-	const [SelectedId, setSelectedID] = useState();
-	const [rows, setRows] = useState([
+	function FormRow() {
+		return (
+			<React.Fragment>
+				<Grid item xs={3}>
+					Delete User Option
+				</Grid>
+				<Grid item xs={3}>
+					User Number
+				</Grid>
+				<Grid item xs={3}>
+					First Name
+				</Grid>
+				<Grid item xs={3}>
+					Last Name
+				</Grid>
+			</React.Fragment>
+		);
+	}
+
+	function SecondRow(props) {
+		return (
+			<>
+				<Grid item xs={3}>
+					<Box sx={{ display: 'flex', flexDirection: 'row' }}>
+						<Button
+							variant='contained'
+							sx={{ mt: 2, mr: 2, width: 26, height: 26 }}
+							onClick={() => {
+								console.log('Button is Clicked');
+							}}>
+							Delete{' '}
+						</Button>
+
+						<Avatar
+							alt='Maamar Kouadri'
+							src={require(`../Images/${props.Object.image}`)}
+							sx={{ width: 56, height: 56 }}
+						/>
+					</Box>
+				</Grid>
+				<Grid item xs={3}>
+					{props.Object.id}
+				</Grid>
+				<Grid item xs={3}>
+					{props.Object.firstName}
+				</Grid>
+				<Grid item xs={3}>
+					{props.Object.lastName}
+				</Grid>
+			</>
+		);
+	}
+
+	const [UserRows, setUserRows] = useState();
+
+	const FetchAllUsers = async () => {
+		try {
+			const Users = await getAllUsers();
+			console.log('The Users are ');
+			console.log(Users);
+
+			for (var i = 0; i < Users.length; i++) {
+				//
+				//Users[i].image = Avatar;
+				//console.log(Users[i].image);
+				//Do something
+			}
+			console.log('The Users are ');
+			console.log(Users);
+
+			setUserRows(Users);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	const Delete = async (Email) => {
+		console.log('Button is Clicked');
+
+		try {
+			const res = await axios.delete(`http://localhost:5000/Users/${Email}`);
+			console.log('User has been deleted ');
+			FetchAllUsers();
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	const columns = [
+		{
+			name: 'Delete User',
+			selector: (row) => (
+				<Button
+					variant='contained'
+					sx={{ mt: 2, mr: 2, width: 26, height: 26 }}
+					onClick={() => {
+						Delete(row.Email);
+					}}>
+					Delete{' '}
+				</Button>
+			),
+		},
+		{
+			name: 'Profile pic',
+			selector: (row) => (
+				<Avatar
+					alt='Maamar Kouadri'
+					src={require(`../Images/${row.image}`)}
+					sx={{ width: 56, height: 56 }}
+				/>
+			),
+		},
+		{
+			name: 'User Number',
+			selector: (row) => row.id,
+		},
+
+		{
+			name: 'Email',
+			selector: (row) => row.Email,
+		},
+
+		{
+			name: 'First Name',
+			selector: (row) => row.firstName,
+		},
+		{
+			name: 'Last Name',
+			selector: (row) => row.lastName,
+		},
+	];
+
+	const data = [
 		{
 			id: 1,
-			lastName: 'Snow',
-			firstName: 'Jon',
-			image:
-				'https://upload.wikimedia.org/wikipedia/commons/f/f3/Zinedine_Zidane_by_Tasnim_03.jpg',
+			title: 'Beetlejuice',
+			year: '1988',
 		},
 		{
 			id: 2,
-			lastName: 'Lannister',
-			firstName: 'Cersei',
+			title: 'Ghostbusters',
+			year: '1984',
 		},
-		{ id: 3, lastName: 'Lannister', firstName: 'Jaime' },
-		{ id: 4, lastName: 'Stark', firstName: 'Arya' },
-		{ id: 5, lastName: 'Targaryen', firstName: 'Daenerys' },
-		{ id: 6, lastName: 'Critiano', firstName: 'Ronaldo' },
-		{ id: 7, lastName: 'Mark', firstName: 'Claire' },
-		{ id: 8, lastName: 'Justin', firstName: 'Aumin' },
-	]);
-	const columns = [
-		{
-			field: 'image',
-			headerName: 'Image',
-			width: 150,
-			renderCell: (params) => <Avatar src={params.value} />, // renderCell will render the component
-		},
-		{ field: 'id', headerName: 'Friend', width: 150 },
-		{ field: 'firstName', headerName: 'First name', width: 130 },
-		{ field: 'lastName', headerName: 'Last name', width: 130 },
 	];
 
-	//let found = false;
-	const UpdateIDs = (ID) => {
-		rows.forEach(function (x) {
-			if (x.id === ID[0]) {
-				console.log('We are deleteting the ID  ' + x.id);
-				//found = true;
-			}
+	useEffect(() => {
+		const FetchAllUsers = async () => {
+			try {
+				const Users = await getAllUsers();
+				console.log('The Users are ');
+				console.log(Users);
 
-			if (x.id > ID[0]) {
-				x.id = x.id - 1;
-			}
-		});
-		//	setRows(rows);
-	};
+				for (var i = 0; i < Users.length; i++) {
+					//
+					//Users[i].image = Avatar;
+					//console.log(Users[i].image);
+					//Do something
+				}
+				console.log('The Users are ');
+				console.log(Users);
 
-	const handleDeleteRow = () => {
-		setRows((prevRows) => {
-			const rowToDeleteIndex = randomInt(0, prevRows.length - 1);
-			console.log('Selected index is  ' + SelectedId);
-			const index = SelectedId - 1;
-			return [...rows.slice(0, index), ...rows.slice(index + 1)];
-		});
-		UpdateIDs(SelectedId);
+				setUserRows(Users);
+			} catch (err) {
+				console.log(err);
+			}
+		};
+		FetchAllUsers();
+	}, []);
+	//const isAuth = useSelector((state) => state.auth.isAuthenticated);
+
+	//console.log('Is Auth in Friends is  ' + isAuth);
+	const customStyles = {
+		rows: {
+			style: {
+				minWidth: '700px', // override the row height
+			},
+		},
+		headCells: {
+			style: {
+				paddingLeft: '8px', // override the cell padding for head cells
+				paddingRight: '8px',
+			},
+		},
+		cells: {
+			style: {
+				paddingLeft: '8px', // override the cell padding for data cells
+				paddingRight: '8px',
+			},
+		},
 	};
 	return (
-		<Box style={{ height: 500, width: 700 }}>
-			<Stack direction='row' spacing={1}>
-				<Button size='small' onClick={handleDeleteRow}>
-					Delete a Friend
-				</Button>
-			</Stack>
-			<DataGrid
-				rows={rows}
-				columns={columns}
-				pageSize={8}
-				rowsPerPageOptions={[8]}
-				checkboxSelection
-				onSelectionModelChange={(ids) => {
-					const selectedIDs = new Set(ids);
-					setSelectedID(ids);
-					/*
-					const selectedRowData = rows.filter((row) =>
-						selectedIDs.has(row.id.toString())
-					);
-					console.log(selectedRowData);
-					*/
-				}}
-			/>
-		</Box>
+		<ErrorBoundary
+			FallbackComponent={ErrorFallback}
+			onReset={() => {
+				// reset the state of your app so the error doesn't happen again
+			}}>
+			<Box sx={{ width: '100%' }}>
+				<DataTable
+					columns={columns}
+					data={UserRows}
+					customStyles={customStyles}
+				/>
+			</Box>
+		</ErrorBoundary>
 	);
 }

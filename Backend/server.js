@@ -6,6 +6,7 @@ const dotenv = require('dotenv');
 const UsersRouter = require('./Routes/Users');
 const FriendsRouter = require('./Routes/Friends');
 const PostsRouter = require('./Routes/Posts');
+const CommentsRouter = require('./Routes/Comments');
 const chatRouter = require('./Routes/chat');
 const messagesRouter = require('./Routes/messages');
 const cookieParser = require('cookie-parser');
@@ -45,15 +46,6 @@ const fileFilter = (req, file, cb) => {
 	}
 };
 
-/*
-const upload = multer({
-	storage: storage,
-	limit: {
-		fieldSize: 1024 * 1024 * 3,
-	},
-});
-*/
-//Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
@@ -82,6 +74,8 @@ app.use('/auth', authRoute);
 app.use('/Friends', FriendsRouter);
 
 app.use('/Posts', PostsRouter);
+
+app.use('/Comments', CommentsRouter);
 
 app.use('/Chat', chatRouter);
 

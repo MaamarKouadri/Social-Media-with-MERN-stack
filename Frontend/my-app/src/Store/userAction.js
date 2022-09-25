@@ -17,3 +17,16 @@ export const getUserProfile = () => async (dispatch) => {
 		dispatch(getUserFail(error.message));
 	}
 };
+
+export const getAllUsers = async () => {
+	console.log('We are inside get All posts');
+	try {
+		const AllUsers = await axios.get(
+			'http://localhost:5000/Users/AllUsers/all'
+		);
+		return AllUsers.data;
+		//	const res = await axios.getUserFail('http://localhost:5000/auth/Retreive', data);
+	} catch (error) {
+		console.log(error);
+	}
+};

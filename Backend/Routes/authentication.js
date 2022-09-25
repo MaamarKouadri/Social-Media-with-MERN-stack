@@ -53,19 +53,9 @@ router.post('/register', async (request, response) => {
 		Friends,
 		isAdmin,
 		isConnected,
-		//Image,
 	} = request.body;
 	console.log('Upload image inside the api ');
 
-	//	formdata.append('image', UploadImage, UploadImage.name);
-	//console.log(formdata);
-	//console.log(...Image);
-	/*
-	const img = {
-		data: fs.readFileSync('../Frontend/my-app/src/Images/maamar.PNG'),
-		contentType: 'image/png',
-	};
-	*/
 	console.log('inside register 2 ');
 	try {
 		const userDB = await UserDB.findOne({
