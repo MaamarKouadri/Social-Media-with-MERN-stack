@@ -1,0 +1,41 @@
+/** @format */
+
+.messages {
+	display: flex;
+	flex-direction: column;
+	margin-top: 20px;
+}
+
+.TopMessage {
+	display: flex;
+}
+
+.Img {
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	object-fit: cover;
+	margin-right: 10px;
+}
+
+.messageContent {
+	padding: 10px;
+	border-radius: 20px;
+	background-color: rgb(240, 239, 239);
+	color: black;
+	max-width: 300px;
+}
+
+.messagedate {
+	font-size: 12px;
+	margin-top: 10px;
+}
+
+.messages.MyMessage {
+	align-items: flex-end;
+}
+
+.messages.MyMessage .messageContent {
+	background-color: rgb(12, 124, 237);
+	color: white;
+}
