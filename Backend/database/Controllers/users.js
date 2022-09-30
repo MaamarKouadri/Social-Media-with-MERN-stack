@@ -204,6 +204,7 @@ exports.getUserProfile = (request, response, next) => {
 				isConnected,
 				img,
 				NumberOfPosts,
+				posts,
 			});
 		})
 		.catch((err) => {

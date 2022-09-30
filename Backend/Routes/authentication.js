@@ -35,6 +35,50 @@ router.get('/AllUsers', async (req, res) => {
 	}
 });
 
+router.get('/OtherUser/:id', async (req, res) => {
+	console.log('Inside retreive other  user route ');
+	const userID = req.params.id;
+	try {
+		const OtherUser = await UserDB.findById(userID);
+		const {
+			_id,
+			FirstName,
+			LastName,
+			ProfileDescription,
+			email,
+			Age,
+			Profession,
+			Country,
+			NumberFriends,
+			Friends,
+			isAdmin,
+			isConnected,
+			img,
+			posts,
+		} = OtherUser;
+		const NumberOfPosts = posts.length;
+		res.status(200).json({
+			_id,
+			FirstName,
+			LastName,
+			ProfileDescription,
+			email,
+			Age,
+			Profession,
+			Country,
+			NumberFriends,
+			Friends,
+			isAdmin,
+			isConnected,
+			img,
+			NumberOfPosts,
+		});
+	} catch (err) {
+		console.log(err);
+		res.status(500).json(err);
+	}
+});
+
 router.post('/register', async (request, response) => {
 	console.log('inside register route ');
 

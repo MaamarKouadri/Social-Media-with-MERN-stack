@@ -83,6 +83,22 @@ export const VerifyEmail = (email) => {
 	});
 };
 
+export const FetchOtherUser = (id) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			console.log('Fetch Other User ');
+			const res = await axios({
+				method: 'get',
+				url: 'http://localhost:5000/auth/OtherUser/' + id,
+			});
+
+			resolve(res.data);
+		} catch (error) {
+			reject(error);
+		}
+	});
+};
+
 export const GetAllUsersIDs = () => {
 	return new Promise(async (resolve, reject) => {
 		try {

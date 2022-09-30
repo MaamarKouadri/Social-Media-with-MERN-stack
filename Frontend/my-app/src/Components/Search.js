@@ -9,6 +9,8 @@ import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import ProfileSearch from './TestSearch';
+import SearchProfile from './SearchProfile';
+import TestSearch from './TestSearch';
 
 /*
 		<TextField
@@ -51,7 +53,7 @@ import ProfileSearch from './TestSearch';
 		*/
 
 export default function Search() {
-	return <ProfileSearch />;
+	return <TestSearch />;
 }
 
 // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top

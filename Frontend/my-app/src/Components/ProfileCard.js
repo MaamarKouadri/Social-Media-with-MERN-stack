@@ -47,7 +47,7 @@ export default function ProfileCard(props) {
 	function everyTwo(str) {
 		return str
 			.split(' ') // find spaces and make array from string
-			.map((item, idx) => (idx % 20 === 0 ? item : item + '\n')) // add line break to every second word
+			.map((item, idx) => (idx % 15 === 0 ? item : item + '\n')) // add line break to every second word
 			.join(' '); // make string from array
 	}
 
@@ -62,6 +62,7 @@ export default function ProfileCard(props) {
 						src={require(`../Images/${img}`)}
 						//src={require(`${image02}`)}
 						//alt='profile picture'
+						sx={{ width: 600, height: 300 }}
 						id='image'
 					/>
 					<Box
@@ -116,25 +117,26 @@ export default function ProfileCard(props) {
 							color='text.secondary'>
 							Has made {NumberOfPosts} posts
 						</Typography>
-						<Divider
-							sx={{ borderBottomWidth: '2px', backgroundColor: 'black' }}
-						/>
-						<Box
-							sx={{
-								width: '100%',
-								maxWidth: 400,
-								display: 'flex',
-								justifyContent: 'center',
-								textAlign: 'center',
-							}}>
-							<Typography
-								variant='body2'
-								color='text.secondary'
-								id='text2'
-								gutterBottom>
-								{everyTwo(ProfileDescription)}
-							</Typography>
-						</Box>
+					</Box>
+					<Divider
+						sx={{ borderBottomWidth: '2px', backgroundColor: 'black' }}
+					/>
+					<Box
+						sx={{
+							width: '100%',
+							maxWidth: 550,
+							display: 'flex',
+							flexDirection: 'row',
+							justifyContent: 'center',
+							textAlign: 'center',
+						}}>
+						<Typography
+							variant='body1'
+							color='text.secondary'
+							id='text2'
+							gutterBottom>
+							{everyTwo(ProfileDescription)}
+						</Typography>
 					</Box>
 				</CardContent>
 			</CardActionArea>

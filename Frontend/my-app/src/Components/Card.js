@@ -50,7 +50,8 @@ const ExpandMore = styled((props) => {
 
 export default function RecipeReviewCard(props) {
 	const User = useSelector((state) => state.User.user);
-
+	const { posts } = User;
+	const [isPresent, setIsPresent] = useState(false);
 	function ErrorFallback({ error, resetErrorBoundary }) {
 		return (
 			<div role='alert'>
@@ -83,6 +84,16 @@ export default function RecipeReviewCard(props) {
 				const FetchedPost = await GetPost(props.PostID);
 				console.log('The id of this post is ');
 				console.log(props.PostID);
+				console.log('All posts are ');
+				console.log(posts);
+
+				var count = posts.length;
+				for (var i = 0; i < count; i++) {
+					if (posts[i] === PostID) {
+						setIsPresent(true);
+					}
+				}
+
 				console.log(FetchedPost.post);
 				const { content, date, imageUrl, title, AvatarURL } = FetchedPost.post;
 
@@ -181,11 +192,13 @@ export default function RecipeReviewCard(props) {
 						aria-label='recipe'></Avatar>
 				}
 				action={
-					<Tooltip title='Delete Post'>
-						<IconButton aria-label='settings'>
-							<FolderDeleteIcon />
-						</IconButton>
-					</Tooltip>
+					isPresent && (
+						<Tooltip title='Delete Post'>
+							<IconButton>
+								<FolderDeleteIcon />
+							</IconButton>
+						</Tooltip>
+					)
 				}
 				title={title}
 				subheader={createdAt}

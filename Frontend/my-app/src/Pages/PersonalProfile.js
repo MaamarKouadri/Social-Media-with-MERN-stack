@@ -12,7 +12,8 @@ export const PersonalProfile = () => {
 		<Box
 			display='flex'
 			sx={{
-				pt: 15,
+				mt: 15,
+				mb: 5,
 			}}
 			alignItems='center'
 			justifyContent='center'

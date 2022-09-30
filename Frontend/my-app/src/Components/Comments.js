@@ -9,6 +9,7 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+
 import Box from '@mui/material/Box';
 import { format } from 'timeago.js';
 import { useEffect } from 'react';
@@ -19,7 +20,9 @@ import { useDispatch } from 'react-redux';
 import TimeAgo from 'javascript-time-ago';
 import date from 'date-and-time';
 import en from 'javascript-time-ago/locale/en';
-
+import Tooltip from '@mui/material/Tooltip';
+import IconButton from '@mui/material/IconButton';
+import FolderDeleteIcon from '@mui/icons-material/FolderDelete';
 import './Comments.css';
 
 const imgLink =
@@ -40,9 +43,10 @@ export default function Comments(props) {
 	const CurrentUser = FirstName + ' ' + LastName;
 
 	// Create formatter (English).
-	const timeAgo = new TimeAgo('en-US');
+
 	const UserUsername = '';
 	const { UserImg, UserName, Content, DateCreated, PostID } = props.Object;
+
 	/*
 	const [Avatar, setAvatar] = useState();
 	const path = require('../Images/daemon2.jpg');
@@ -84,22 +88,33 @@ export default function Comments(props) {
 	return (
 		<div style={{ padding: 14, fontFamily: 'sans-serif' }} className='App'>
 			<Paper style={{ padding: '20px 20px' }}>
-				<Grid container wrap='nowrap' spacing={2}>
-					<Grid item>
-						<Avatar
-							alt='Remy Sharp'
-							src={require(`../Images/${props.Object.UserImg}`)}
-						/>
+				<Box
+					sx={{
+						display: 'flex',
+						flexDirection: 'row',
+					}}>
+					<Grid container wrap='nowrap' spacing={2}>
+						<Grid item>
+							<Avatar
+								alt='Remy Sharp'
+								src={require(`../Images/${props.Object.UserImg}`)}
+							/>
+						</Grid>
+						<Grid justifyContent='left' item xs zeroMinWidth>
+							<h4 style={{ margin: 0, textAlign: 'left' }}>{UserName}</h4>
+							<p style={{ textAlign: 'left' }}>{Content}</p>
+							<p style={{ textAlign: 'left', color: 'gray' }}>
+								posted {DateCreated}
+							</p>
+						</Grid>
 					</Grid>
-					<Grid justifyContent='left' item xs zeroMinWidth>
-						<h4 style={{ margin: 0, textAlign: 'left' }}>{UserName}</h4>
-						<p style={{ textAlign: 'left' }}>{Content}</p>
-						<p style={{ textAlign: 'left', color: 'gray' }}>
-							posted {DateCreated}
-						</p>
-					</Grid>
-				</Grid>
-				<Divider variant='' style={{ margin: '0px 0' }} />
+					<Divider variant='' style={{ margin: '0px 0' }} />
+					<Tooltip title='Delete Comment'>
+						<IconButton>
+							<FolderDeleteIcon />
+						</IconButton>
+					</Tooltip>
+				</Box>
 			</Paper>
 		</div>
 	);

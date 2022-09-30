@@ -14,6 +14,7 @@ import AccountSettings from './Pages/AccountSettings';
 import MessengerPage from './Pages/MessengerPage';
 
 import HomePage from './Pages/HomePage';
+import OtherUserProfile from './Pages/OtherUserProfile';
 import { PersistGate } from 'redux-persist/integration/react';
 
 const App = () => {
@@ -28,6 +29,7 @@ const App = () => {
 					<Route path='/FriendsList' element={<FriendsList />} />
 					<Route path='/AccountSettings' element={<AccountSettings />} />
 					<Route path='/PersonalProfile' element={<PersonalProfile />} />
+					<Route path='/PersonalProfile/:id' element={<OtherUserProfile />} />
 				</Routes>
 			</BrowserRouter>
 		</div>
