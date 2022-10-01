@@ -56,14 +56,14 @@ export const getAllPosts = () => async (dispatch) => {
 	}
 };
 
-export const ManageNumberOfLikes = (id, action) => {
+export const ManageNumberOfLikes = (UserID, id, action) => {
 	console.log(id);
 	console.log(action);
 	if (action === 'add') {
 		return new Promise(async (resolve, reject) => {
 			try {
 				const res = await axios.put(
-					'http://localhost:5000/Posts/AddLike/' + id
+					'http://localhost:5000/Posts/AddLike/' + id + '/' + UserID
 				);
 				resolve(res.data);
 			} catch (error) {
@@ -77,7 +77,7 @@ export const ManageNumberOfLikes = (id, action) => {
 		return new Promise(async (resolve, reject) => {
 			try {
 				const res = await axios.put(
-					'http://localhost:5000/Posts/RemoveLike/' + id
+					'http://localhost:5000/Posts/RemoveLike/' + id + '/' + UserID
 				);
 				resolve(res.data);
 			} catch (error) {

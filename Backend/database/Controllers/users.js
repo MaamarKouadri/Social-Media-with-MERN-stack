@@ -54,6 +54,7 @@ exports.createUser = (request, response, next) => {
 		Friends: Friends,
 		isAdmin: isAdmin,
 		isConnected: isConnected,
+
 		//image: imageURL,
 	} = request.body;
 	let HashedPassword = bycript.hashSync(password, 12);
@@ -187,6 +188,7 @@ exports.getUserProfile = (request, response, next) => {
 				isConnected,
 				img,
 				posts,
+				LikedPosts,
 			} = loadedUser;
 			const NumberOfPosts = posts.length;
 			response.status(200).json({
@@ -205,6 +207,7 @@ exports.getUserProfile = (request, response, next) => {
 				img,
 				NumberOfPosts,
 				posts,
+				LikedPosts,
 			});
 		})
 		.catch((err) => {

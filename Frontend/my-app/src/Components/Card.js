@@ -62,27 +62,37 @@ const ExpandMore = styled((props) => {
 
 export default function RecipeReviewCard(props) {
 	const User = useSelector((state) => state.User.user);
+	const { LikedPosts } = User;
 	const [LikeButtonClicked, setLikeButtonClicked] = useState(false);
-	const [ButtonColor, setButtonColor] = useState('default');
+	const [ButtonColor, setButtonColor] = useState(
+		LikedPosts.indexOf(props.PostID) === -1 ? 'default' : 'primary'
+	);
 	const [TheLikes, setNumberOfLikes] = useState(0);
 
 	// Use redux to fix the likes or already like in the databse fix it
 	const HandleButton = async () => {
-		if (LikeButtonClicked === false) {
-			setButtonColor('primary');
-			setLikeButtonClicked(true);
+		if (ButtonColor === 'default') {
 			try {
-				const res = await ManageNumberOfLikes(props.PostID, 'add');
+				const res = await ManageNumberOfLikes(User._id, props.PostID, 'add');
 				setNumberOfLikes(res);
+				setButtonColor('primary');
+				setLikeButtonClicked(true);
+				const resUser = await dispatch(getUserProfile());
+				dispatch(getUserSuccess(resUser));
+				return;
 			} catch (err) {
 				console.log(err);
 			}
-		} else {
-			setButtonColor('default');
-			setLikeButtonClicked(false);
+		}
+		if (ButtonColor === 'primary') {
 			try {
-				const res = await ManageNumberOfLikes(props.PostID, 'remove');
+				const res = await ManageNumberOfLikes(User._id, props.PostID, 'remove');
 				setNumberOfLikes(res);
+				setButtonColor('default');
+				setLikeButtonClicked(false);
+				const resUser = await dispatch(getUserProfile());
+				dispatch(getUserSuccess(resUser));
+				return;
 			} catch (err) {
 				console.log(err);
 			}
@@ -93,14 +103,6 @@ export default function RecipeReviewCard(props) {
 
 	const [isPresent, setIsPresent] = useState(false);
 
-	/*
-		for (var i = 0; i < posts.length; i++) {
-			if (posts[i] === props.PostID) {
-				console.log('It has been set to true');
-				setIsPresent(true);
-			}
-		}
-		*/
 	const VerifyPresence = () => {
 		for (var i = 0; i < posts.length; i++) {
 			if (posts[i] === props.PostID) {
@@ -160,9 +162,11 @@ export default function RecipeReviewCard(props) {
 					imageUrl,
 					title,
 					AvatarURL,
+					ColorOfLikeButton,
 				} = FetchedPost.post;
 
 				setThisId(_id);
+
 				setNumberOfLikes(NumberOfLikes);
 				setcontent(content);
 				setcreatedAt(date);
@@ -179,7 +183,7 @@ export default function RecipeReviewCard(props) {
 			}
 		};
 		FetchPosts();
-	}, [props, TheLikes]);
+	}, [props, TheLikes, LikeButtonClicked]);
 
 	const handeContent = (e) => {
 		setComment(e.target.value);

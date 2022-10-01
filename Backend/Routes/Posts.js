@@ -5,6 +5,7 @@ const { body } = require('express-validator');
 const Post = require('../database/Schemas/posts');
 const CommentDB = require('../database/Schemas/Comments');
 const UserDB = require('../database/Schemas/user');
+const mongoose = require('mongoose');
 
 const feedController = require('../database/Controllers/feed');
 
@@ -122,14 +123,33 @@ router.get('/PostsUser/:UserId', async (req, res, next) => {
 	}
 });
 
-router.put('/AddLike/:PostID', async (req, res, next) => {
+router.put('/AddLike/:PostID/:UserID', async (req, res, next) => {
 	try {
 		console.log('Trying to add a like to a post ');
 		console.log('Params post ID is ');
 		console.log(req.params);
 		const PostID = req.params.PostID;
+		const UserID = req.params.UserID;
+		console.log('User ID is ');
+		console.log(UserID);
+
+		const RtreivedUser = await UserDB.findById(UserID);
 
 		const RtreivedPost = await Post.findById(PostID);
+
+		console.log('Old array is ');
+		console.log(RtreivedUser.LikedPosts);
+
+		var Objectid = mongoose.Types.ObjectId(PostID);
+		if (RtreivedUser.LikedPosts.indexOf(Objectid) === -1) {
+			const NewArray = RtreivedUser.LikedPosts.push(RtreivedPost);
+			RtreivedUser.save();
+			console.log('New array is ');
+			console.log(NewArray);
+		} else {
+			console.log(PostID);
+			console.log('Is already in the array ');
+		}
 
 		let NumberOfLikes = RtreivedPost.NumberOfLikes;
 		NumberOfLikes += 1;
@@ -137,6 +157,13 @@ router.put('/AddLike/:PostID', async (req, res, next) => {
 		var update = {};
 		update['NumberOfLikes'] = NumberOfLikes;
 		const Updated = await Post.findOneAndUpdate(filter, update);
+		/*
+		const filter3 = { _id: PostID };
+		var update3 = {};
+		update3['ColorOfLikeButton'] = 'primary';
+		const color = 'primary';
+		const Updated2 = await Post.findOneAndUpdate(filter3, update3);
+		*/
 		res.status(200).json(NumberOfLikes);
 	} catch (err) {
 		console.log(err);
@@ -144,14 +171,41 @@ router.put('/AddLike/:PostID', async (req, res, next) => {
 	}
 });
 
-router.put('/RemoveLike/:PostID', async (req, res, next) => {
+router.put('/RemoveLike/:PostID/:UserID', async (req, res, next) => {
 	try {
 		console.log('Trying to remove a like to a post ');
 		console.log('Params post ID is ');
 		console.log(req.params);
 		const PostID = req.params.PostID;
+		const UserID = req.params.UserID;
+		console.log('User ID is ');
+		console.log(UserID);
+
+		const RtreivedUser = await UserDB.findById(UserID);
 
 		const RtreivedPost = await Post.findById(PostID);
+
+		var Objectid = mongoose.Types.ObjectId(PostID);
+		console.log(Objectid);
+		//Meaning the element is Present in The Array
+		if (RtreivedUser.LikedPosts.indexOf(Objectid) !== -1) {
+			const NewArray = RtreivedUser.LikedPosts.filter(
+				(id) => id.toString() !== PostID
+			);
+
+			console.log('New array is ');
+			console.log(NewArray);
+			console.log('Old array is ');
+			console.log(RtreivedUser.LikedPosts);
+
+			const filter = { _id: UserID };
+			var update = {};
+			update['LikedPosts'] = NewArray;
+			const Updated = await UserDB.findOneAndUpdate(filter, update);
+		} else {
+			console.log(PostID);
+			console.log('Is already in the array ');
+		}
 
 		let NumberOfLikes = RtreivedPost.NumberOfLikes;
 		NumberOfLikes -= 1;
@@ -159,6 +213,14 @@ router.put('/RemoveLike/:PostID', async (req, res, next) => {
 		var update = {};
 		update['NumberOfLikes'] = NumberOfLikes;
 		const Updated = await Post.findOneAndUpdate(filter, update);
+		/*
+		const filter3 = { _id: PostID };
+		var update3 = {};
+		update3['ColorOfLikeButton'] = 'default';
+
+		const color = 'default';
+		const Updated2 = await Post.findOneAndUpdate(filter3, update3);
+		*/
 		res.status(200).json(NumberOfLikes);
 	} catch (err) {
 		console.log(err);

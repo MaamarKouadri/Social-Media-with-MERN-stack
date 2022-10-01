@@ -4,6 +4,7 @@ const { Router } = require('express');
 
 const UserDB = require('../database/Schemas/user');
 const PostDB = require('../database/Schemas/posts');
+const CommentDB = require('../database/Schemas/Comments');
 const router = Router();
 
 //get a user
@@ -157,6 +158,7 @@ router.put('/Update', async (req, res) => {
 				ProfileDescription,
 				Profession,
 			} = req.body;
+			console.log('ID is ' + id);
 			const filter = { _id: id };
 			var update = {};
 
@@ -248,20 +250,33 @@ router.put('/Update', async (req, res) => {
 
 			const Updated = await UserDB.findOneAndUpdate(filter, update);
 
-			const filter2 = { creator: id };
-			var update2 = {};
-			update2['imageUrl'] = FinalPath;
+			const RetreivedUser = await UserDB.findById(id);
 
-			console.log('Updating all the posts ');
-			const UpdatedPosts = PostDB.updateMany(
-				{ creator: id },
-				{ $set: { imageUrl: FinalPath } }
-			);
-			console.log('-----------------------------');
-			console.log(UpdatedPosts);
-			console.log('-----------------------------');
+			const FullName = RetreivedUser.FirstName + ' ' + RetreivedUser.LastName;
+
+			Updated.posts.forEach((post) => {
+				//	if (post.toString() === id) {
+				console.log(post.toString());
+				const filter2 = { _id: post.toString() };
+				var update2 = {};
+				update2['AvatarURL'] = FinalPath;
+				PostDB.findOneAndUpdate(filter2, update2).then((post) => {});
+
+				//}
+			});
+			const filter3 = {
+				UserName: FullName,
+			};
+
+			var update3 = {};
+			console.log('Full Name is ');
+			console.log(FullName);
+			update3['UserImg'] = FinalPath;
+			const UpdatedComments = await CommentDB.updateMany(filter3, update3);
+			console.log(UpdatedComments);
 		}
 
+		//Updating the comments as well here
 		res.status(200).json('User Updated');
 	} catch (err) {
 		res.status(500).json(err);

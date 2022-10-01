@@ -36,7 +36,14 @@ import {
 	getUserSuccess,
 	getUserFail,
 } from '../Store/userSlice';
+import { SendPost, getAllPosts } from '../Store/PostAction';
 import { getUserProfile } from '../Store/userAction';
+import {
+	ImportPosts,
+	EmptyPosts,
+	AddUserNotToSee,
+	RefreshPostOfUser,
+} from '../Store/PostsSlice';
 
 import Alert from '@mui/material/Alert';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -140,7 +147,7 @@ export default function UpdateAccount() {
 			FirstName === '' &&
 			LastName === '' &&
 			Profession === '' &&
-			(UploadImage !== null || UploadImage !== undefined)
+			(UploadImage === null || UploadImage === undefined)
 		) {
 			setErrorMessage(
 				'You have entered no value to update, leave this page if you do not want to update'
@@ -196,9 +203,12 @@ export default function UpdateAccount() {
 				console.log('New User is ');
 				console.log('User');
 				dispatch(getUserSuccess(User));
+				// Updating All posts as well
 			} catch (err) {
 				console.log(err);
 			}
+			const AllPosts = await dispatch(getAllPosts());
+			dispatch(ImportPosts(AllPosts));
 			navigate('/PersonalProfile');
 		} catch (err) {
 			console.log(err);

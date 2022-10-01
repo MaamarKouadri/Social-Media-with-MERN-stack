@@ -23,6 +23,7 @@ import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import { createTheme } from '@mui/material/styles';
 
 const Header = () => {
 	let dispatch = useDispatch();
