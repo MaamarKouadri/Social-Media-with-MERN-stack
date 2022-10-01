@@ -33,6 +33,10 @@ const postSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		NumberOfLikes: {
+			type: Number,
+			default: 0,
+		},
 		Comments: [
 			{
 				type: Schema.Types.ObjectID,

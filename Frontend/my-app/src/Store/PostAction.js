@@ -19,12 +19,6 @@ export const SendPost = (data) => {
 export const GetPost = (id) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			console.log('Trying to get one  post');
-			console.log('The ID is ');
-			console.log(id);
-			console.log('The URL is ');
-			console.log('http://localhost:5000/Posts/' + id);
-
 			const res = await axios.get('http://localhost:5000/Posts/' + id);
 			resolve(res.data);
 		} catch (error) {
@@ -34,8 +28,23 @@ export const GetPost = (id) => {
 	});
 };
 
+export const DeletePost = (id) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			console.log('Inside the Delete Posts Action');
+			console.log(`http://localhost:5000/Posts/Delete/${id}`);
+			const res = await axios.delete(
+				`http://localhost:5000/Posts/Delete/${id}`
+			);
+			resolve(res.data);
+		} catch (error) {
+			console.log(error);
+			reject(error);
+		}
+	});
+};
+
 export const getAllPosts = () => async (dispatch) => {
-	console.log('We are inside get All posts');
 	try {
 		const AllPosts = await axios.get('http://localhost:5000/Posts/AllPosts');
 		dispatch(ImportPosts(AllPosts.data));
@@ -44,5 +53,37 @@ export const getAllPosts = () => async (dispatch) => {
 	} catch (error) {
 		console.log(error);
 		dispatch(EmptyPosts());
+	}
+};
+
+export const ManageNumberOfLikes = (id, action) => {
+	console.log(id);
+	console.log(action);
+	if (action === 'add') {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const res = await axios.put(
+					'http://localhost:5000/Posts/AddLike/' + id
+				);
+				resolve(res.data);
+			} catch (error) {
+				console.log(error);
+				reject(error);
+			}
+		});
+	}
+
+	if (action === 'remove') {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const res = await axios.put(
+					'http://localhost:5000/Posts/RemoveLike/' + id
+				);
+				resolve(res.data);
+			} catch (error) {
+				console.log(error);
+				reject(error);
+			}
+		});
 	}
 };

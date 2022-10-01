@@ -47,4 +47,44 @@ router.post('/', async (req, res) => {
 		res.status(500).json(err);
 	}
 });
+
+router.delete('/:id', async (req, res) => {
+	console.log('We are inside delete Comment Route');
+	const CommentID = req.params.id;
+	console.log('Comment ID is ');
+	console.log(CommentID);
+	try {
+		//Retreive the Comment PostID
+		const TheComment = await CommentDB.findOne({ _id: CommentID });
+
+		const { PostID } = TheComment;
+
+		//Deleting Comment from collection
+		const DeletedPost = await CommentDB.deleteOne({
+			_id: { $in: [CommentID] },
+		});
+
+		// Find the Post where that comment was
+		const Post = await PostDB.findById(PostID);
+
+		//Filter the array of posts remove the deleted one
+
+		const NewPostArray = Post.Comments.filter(
+			(entry) => entry.toString() !== CommentID
+		);
+
+		console.log(Post.Comments.length);
+
+		console.log(NewPostArray.length);
+
+		const filter = { _id: PostID };
+		var update = {};
+		update['Comments'] = NewPostArray;
+		const Updated = await PostDB.findOneAndUpdate(filter, update);
+		res.status(200).json(Updated);
+	} catch (err) {
+		console.log(err);
+		res.status(500).json(err);
+	}
+});
 module.exports = router;

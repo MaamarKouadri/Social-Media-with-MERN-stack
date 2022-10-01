@@ -16,7 +16,7 @@ const Feed = () => {
 		<Box
 			display='flex'
 			sx={{
-				pt: 20,
+				pt: 10,
 			}}
 			alignItems='center'
 			justifyContent='center'

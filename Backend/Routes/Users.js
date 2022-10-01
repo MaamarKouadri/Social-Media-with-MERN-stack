@@ -3,6 +3,7 @@
 const { Router } = require('express');
 
 const UserDB = require('../database/Schemas/user');
+const PostDB = require('../database/Schemas/posts');
 const router = Router();
 
 //get a user
@@ -197,9 +198,6 @@ router.put('/Update', async (req, res) => {
 			const Updated = await UserDB.findOneAndUpdate(filter, update);
 		} else {
 			const imageURL = req.file.path;
-			console.log('Image url is ---------------------------------');
-			console.log(imageURL);
-			console.log('Image url is ---------------------------------');
 
 			const myArray = imageURL.split('Images\\');
 
@@ -249,6 +247,19 @@ router.put('/Update', async (req, res) => {
 			console.log(update);
 
 			const Updated = await UserDB.findOneAndUpdate(filter, update);
+
+			const filter2 = { creator: id };
+			var update2 = {};
+			update2['imageUrl'] = FinalPath;
+
+			console.log('Updating all the posts ');
+			const UpdatedPosts = PostDB.updateMany(
+				{ creator: id },
+				{ $set: { imageUrl: FinalPath } }
+			);
+			console.log('-----------------------------');
+			console.log(UpdatedPosts);
+			console.log('-----------------------------');
 		}
 
 		res.status(200).json('User Updated');

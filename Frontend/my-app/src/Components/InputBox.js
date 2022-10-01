@@ -23,15 +23,39 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Tooltip from '@mui/material/Tooltip';
 import Card from './Card';
+import {
+	ImportPosts,
+	EmptyPosts,
+	AddUserNotToSee,
+	RefreshPostOfUser,
+} from '../Store/PostsSlice';
 import './LoginBox.css';
+import { getUserProfile } from '../Store/userAction';
+import {
+	getUserPending,
+	getUserSuccess,
+	getUserFail,
+} from '../Store/userSlice';
 
-export default function InputBox() {
+export default function InputBox(props) {
 	const dispatch = useDispatch();
+	const [PostsList, setPosts] = useState([]);
+	useEffect(() => {
+		console.log('Use Effect of Input Box ');
+		const FetchPosts = async () => {
+			const AllPosts = await dispatch(getAllPosts());
+			dispatch(ImportPosts(AllPosts));
+			const resUser = await dispatch(getUserProfile());
+			dispatch(getUserSuccess(resUser));
+			setPosts(AllPosts);
+		};
+		FetchPosts();
+	}, [props]);
+
 	const User = useSelector((state) => state.User.user);
+	const ThePosts = useSelector((state) => state.Post.PostsList);
 	const { _id, img } = User;
 
-	console.log('The image path is  ');
-	console.log(img);
 	const path = require('../Images/' + img);
 
 	const [Title, setTtile] = useState('');
@@ -39,9 +63,6 @@ export default function InputBox() {
 	const [CurrentDate, setCurrentDate] = useState('');
 	const [UploadImage, setUploadImage] = useState(null);
 	const [ErrorMessage, setErrorMessage] = useState(null);
-	const [PostsList, setPosts] = useState([]);
-	console.log('Posts list inside List Of Posts is ');
-	console.log(PostsList);
 
 	const handleImage = (e) => {
 		setUploadImage(e.target.files[0]);
@@ -58,14 +79,6 @@ export default function InputBox() {
 	};
 
 	const CreatePost = async () => {
-		console.log('We are inside Create Post');
-
-		try {
-			console.log(UploadImage);
-		} catch (err) {
-			console.log(err);
-		}
-
 		if (Title === '') {
 			setErrorMessage('There is Title for this post ');
 			return;
@@ -96,7 +109,11 @@ export default function InputBox() {
 			console.log(response);
 			if (response.message === 'Post created successfully!') {
 				const AllPosts = await dispatch(getAllPosts());
+				dispatch(ImportPosts(AllPosts));
+				const resUser = await dispatch(getUserProfile());
+				dispatch(getUserSuccess(resUser));
 				setPosts(AllPosts);
+
 				console.log('All Posts are ');
 				console.log(AllPosts);
 			}
@@ -105,14 +122,6 @@ export default function InputBox() {
 		}
 	};
 
-	useEffect(() => {
-		const FetchPosts = async () => {
-			const AllPosts = await dispatch(getAllPosts());
-			setPosts(AllPosts);
-		};
-		FetchPosts();
-	}, []);
-
 	return (
 		<Box
 			sx={{
@@ -120,7 +129,13 @@ export default function InputBox() {
 
 				flexDirection: 'column',
 			}}>
-			<Box alignItems='center'>
+			<Box
+				alignItems='center'
+				sx={{
+					display: 'flex',
+
+					flexDirection: 'column',
+				}}>
 				{ErrorMessage !== null && (
 					<Alert severity='error' sx={{ m: 2 }}>
 						{ErrorMessage}
@@ -250,7 +265,7 @@ export default function InputBox() {
 
 					justifyContent: 'space-evenly',
 				}}>
-				{PostsList?.map((id) => (
+				{ThePosts?.map((id) => (
 					<Card PostID={id} />
 				))}
 			</Box>

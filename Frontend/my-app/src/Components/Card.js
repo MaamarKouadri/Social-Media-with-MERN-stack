@@ -21,7 +21,6 @@ import ModeCommentIcon from '@mui/icons-material/ModeComment';
 import TableRow from '@mui/material/TableRow';
 import { useEffect, useState } from 'react';
 
-import { ImportPosts, EmptyPosts, DeletePostOfUser } from '../Store/PostsSlice';
 import { GetPost } from '../Store/PostAction';
 import { ErrorBoundary } from 'react-error-boundary';
 import Box from '@mui/material/Box';
@@ -36,6 +35,19 @@ import useCollapse from 'react-collapsed';
 import date from 'date-and-time';
 import { SendComment, getAllComment } from '../Store/CommentsAction';
 import FolderDeleteIcon from '@mui/icons-material/FolderDelete';
+import { DeletePost } from '../Store/PostAction';
+import {
+	SendPost,
+	getAllPosts,
+	ManageNumberOfLikes,
+} from '../Store/PostAction';
+import { ImportPosts, EmptyPosts, DeletePostOfUser } from '../Store/PostsSlice';
+import {
+	getUserPending,
+	getUserSuccess,
+	getUserFail,
+} from '../Store/userSlice';
+import { getUserProfile } from '../Store/userAction';
 
 const ExpandMore = styled((props) => {
 	const { expand, ...other } = props;
@@ -50,8 +62,53 @@ const ExpandMore = styled((props) => {
 
 export default function RecipeReviewCard(props) {
 	const User = useSelector((state) => state.User.user);
+	const [LikeButtonClicked, setLikeButtonClicked] = useState(false);
+	const [ButtonColor, setButtonColor] = useState('default');
+	const [TheLikes, setNumberOfLikes] = useState(0);
+
+	// Use redux to fix the likes or already like in the databse fix it
+	const HandleButton = async () => {
+		if (LikeButtonClicked === false) {
+			setButtonColor('primary');
+			setLikeButtonClicked(true);
+			try {
+				const res = await ManageNumberOfLikes(props.PostID, 'add');
+				setNumberOfLikes(res);
+			} catch (err) {
+				console.log(err);
+			}
+		} else {
+			setButtonColor('default');
+			setLikeButtonClicked(false);
+			try {
+				const res = await ManageNumberOfLikes(props.PostID, 'remove');
+				setNumberOfLikes(res);
+			} catch (err) {
+				console.log(err);
+			}
+		}
+	};
+
 	const { posts } = User;
+
 	const [isPresent, setIsPresent] = useState(false);
+
+	/*
+		for (var i = 0; i < posts.length; i++) {
+			if (posts[i] === props.PostID) {
+				console.log('It has been set to true');
+				setIsPresent(true);
+			}
+		}
+		*/
+	const VerifyPresence = () => {
+		for (var i = 0; i < posts.length; i++) {
+			if (posts[i] === props.PostID) {
+				return true;
+			}
+		}
+		return false;
+	};
 	function ErrorFallback({ error, resetErrorBoundary }) {
 		return (
 			<div role='alert'>
@@ -65,7 +122,6 @@ export default function RecipeReviewCard(props) {
 	const { FistName, LastName } = User;
 	const PostID = props.PostID;
 	const FullName = FistName + ' ' + LastName;
-
 	const [FetchedPost, setFetchedPost] = useState(null);
 	const [content, setcontent] = useState('');
 	const [createdAt, setcreatedAt] = useState('');
@@ -75,28 +131,39 @@ export default function RecipeReviewCard(props) {
 	const [comment, setComment] = useState('');
 	const [AllComments, setAllComments] = useState([]);
 	const [SubmittedComment, setSubmittedComment] = useState([]);
+	const [ThisID, setThisId] = useState();
 	const { getCollapseProps, getToggleProps, isExpanded } = useCollapse();
+
+	const DeleteThePost = async () => {
+		try {
+			const res = await DeletePost(ThisID);
+
+			const AllPosts = await dispatch(getAllPosts());
+			dispatch(ImportPosts(AllPosts));
+			const resUser = await dispatch(getUserProfile());
+			dispatch(getUserSuccess(resUser));
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
 	useEffect(() => {
 		console.log('Inside Use Effect');
 		const FetchPosts = async () => {
 			try {
 				const FetchedPost = await GetPost(props.PostID);
-				console.log('The id of this post is ');
-				console.log(props.PostID);
-				console.log('All posts are ');
-				console.log(posts);
+				const {
+					NumberOfLikes,
+					_id,
+					content,
+					date,
+					imageUrl,
+					title,
+					AvatarURL,
+				} = FetchedPost.post;
 
-				var count = posts.length;
-				for (var i = 0; i < count; i++) {
-					if (posts[i] === PostID) {
-						setIsPresent(true);
-					}
-				}
-
-				console.log(FetchedPost.post);
-				const { content, date, imageUrl, title, AvatarURL } = FetchedPost.post;
-
+				setThisId(_id);
+				setNumberOfLikes(NumberOfLikes);
 				setcontent(content);
 				setcreatedAt(date);
 				const path = require('../Images/' + imageUrl);
@@ -112,7 +179,7 @@ export default function RecipeReviewCard(props) {
 			}
 		};
 		FetchPosts();
-	}, []);
+	}, [props, TheLikes]);
 
 	const handeContent = (e) => {
 		setComment(e.target.value);
@@ -148,25 +215,9 @@ export default function RecipeReviewCard(props) {
 
 	useEffect(() => {
 		FetchComments();
-	}, []);
-	/*
-	useEffect(() => {
-		const FetchComments = async () => {
-			try {
-				const AllComments = await getAllComment(props.PostID);
-				console.log('Comments are');
-				console.log(AllComments);
-				setAllComments(AllComments);
-			} catch (error) {
-				console.log(error);
-			}
-		};
-		FetchComments();
-	}, []);
-*/
-	const { PostsList, UsersNotToSee } = useSelector((state) => state.Post);
+	}, [props]);
 
-	console.log(UsersNotToSee);
+	const { PostsList, UsersNotToSee } = useSelector((state) => state.Post);
 
 	const dispatch = useDispatch();
 
@@ -184,25 +235,35 @@ export default function RecipeReviewCard(props) {
 	*/
 	return (
 		<Card sx={{ p: 2, m: 2, maxWidth: 700, borderStyle: 'solid' }}>
-			<CardHeader
-				avatar={
-					<Avatar
-						sx={{ bgcolor: red[500] }}
-						src={AvatarUrl}
-						aria-label='recipe'></Avatar>
-				}
-				action={
-					isPresent && (
-						<Tooltip title='Delete Post'>
-							<IconButton>
-								<FolderDeleteIcon />
-							</IconButton>
-						</Tooltip>
-					)
-				}
-				title={title}
-				subheader={createdAt}
-			/>
+			<ErrorBoundary
+				FallbackComponent={ErrorFallback}
+				onReset={() => {
+					// reset the state of your app so the error doesn't happen again
+				}}>
+				<CardHeader
+					avatar={
+						<Avatar
+							sx={{ bgcolor: red[500] }}
+							src={AvatarUrl}
+							aria-label='recipe'></Avatar>
+					}
+					action={
+						VerifyPresence() && (
+							<Tooltip
+								title='Delete Post'
+								onClick={() => {
+									DeleteThePost();
+								}}>
+								<IconButton>
+									<FolderDeleteIcon />
+								</IconButton>
+							</Tooltip>
+						)
+					}
+					title={title}
+					subheader={createdAt}
+				/>
+			</ErrorBoundary>
 			<CardMedia
 				component='img'
 				height='200'
@@ -226,9 +287,14 @@ export default function RecipeReviewCard(props) {
 						justifyContent: 'space-evenly',
 						fontSize: '17px',
 					}}>
-					<IconButton aria-label='add to favorites'>
+					<IconButton
+						aria-label='add to favorites'
+						color={ButtonColor}
+						onClick={() => {
+							HandleButton();
+						}}>
 						<FavoriteIcon />
-						Like
+						{TheLikes} Likes
 					</IconButton>
 
 					<IconButton
@@ -241,58 +307,53 @@ export default function RecipeReviewCard(props) {
 					</IconButton>
 				</TableRow>
 			</CardActions>
-			<ErrorBoundary
-				FallbackComponent={ErrorFallback}
-				onReset={() => {
-					// reset the state of your app so the error doesn't happen again
-				}}>
-				<section {...getCollapseProps()}>
-					<Box
-						sx={{
-							display: 'flex',
-							flexDirection: 'column',
-						}}>
-						<Typography variant='h6' color='black' sx={{ pb: 2 }}>
-							Comments Section
-						</Typography>
-						{AllComments?.map((id) => (
-							<Comments Object={id} CurrentUser={User} />
-						))}
-					</Box>
-					<Box
-						sx={{
-							display: 'flex',
-							flexDirection: 'column',
 
-							justifyContent: 'space-between',
+			<section {...getCollapseProps()}>
+				<Box
+					sx={{
+						display: 'flex',
+						flexDirection: 'column',
+					}}>
+					<Typography variant='h6' color='black' sx={{ pb: 2 }}>
+						Comments Section
+					</Typography>
+					{AllComments?.map((id) => (
+						<Comments Object={id} CurrentUser={User} />
+					))}
+				</Box>
+				<Box
+					sx={{
+						display: 'flex',
+						flexDirection: 'column',
+
+						justifyContent: 'space-between',
+					}}>
+					<TextField
+						id='outlined-multiline-static'
+						label='Add a comment'
+						placeholder='Add a comment'
+						className='FieldTexts'
+						multiline
+						rows={3}
+						sx={{ m: 2 }}
+						onChange={(e) => {
+							handeContent(e);
+						}}
+					/>
+					<Button
+						variant='contained'
+						href='#contained-buttons'
+						sx={{
+							marginInline: 2,
+							display: 'flex-end',
+						}}
+						onClick={() => {
+							SubmitComment();
 						}}>
-						<TextField
-							id='outlined-multiline-static'
-							label='Add a comment'
-							placeholder='Add a comment'
-							className='FieldTexts'
-							multiline
-							rows={3}
-							sx={{ m: 2 }}
-							onChange={(e) => {
-								handeContent(e);
-							}}
-						/>
-						<Button
-							variant='contained'
-							href='#contained-buttons'
-							sx={{
-								marginInline: 2,
-								display: 'flex-end',
-							}}
-							onClick={() => {
-								SubmitComment();
-							}}>
-							Post Comment
-						</Button>
-					</Box>
-				</section>
-			</ErrorBoundary>
+						Post Comment
+					</Button>
+				</Box>
+			</section>
 		</Card>
 	);
 }

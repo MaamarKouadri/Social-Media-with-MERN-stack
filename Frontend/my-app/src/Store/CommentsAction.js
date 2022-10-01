@@ -15,6 +15,19 @@ export const SendComment = (data) => {
 	});
 };
 
+export const DeleteComment = (id) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			console.log('Trying to delete a Post');
+			const res = await axios.delete('http://localhost:5000/Comments/' + id);
+			resolve(res.data);
+		} catch (error) {
+			console.log(error);
+			reject(error);
+		}
+	});
+};
+
 export const getAllComment = async (PostId) => {
 	console.log('We are inside get All posts');
 	try {

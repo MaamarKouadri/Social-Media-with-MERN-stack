@@ -27,8 +27,6 @@ export default function ListOfPosts() {
 	const axios = require('axios');
 	const dispatch = useDispatch();
 	const [PostsList, setPosts] = useState([]);
-	console.log('Posts list inside List Of Posts is ');
-	console.log(PostsList);
 
 	return (
 		<Box
@@ -37,7 +35,7 @@ export default function ListOfPosts() {
 
 				flexDirection: 'column',
 			}}>
-			<InputBox />
+			<InputBox value={'yes'} />
 		</Box>
 	);
 }

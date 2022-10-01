@@ -24,6 +24,9 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import FolderDeleteIcon from '@mui/icons-material/FolderDelete';
 import './Comments.css';
+import { DeleteComment } from '../Store/CommentsAction';
+import { SendPost, getAllPosts } from '../Store/PostAction';
+import { ImportPosts, EmptyPosts, DeletePostOfUser } from '../Store/PostsSlice';
 
 const imgLink =
 	'https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260';
@@ -37,44 +40,35 @@ export default function Comments(props) {
 	const User = useSelector((state) => state.User.user);
 	const CurrentUserImage = User.img;
 
-	console.log(new Date());
 	const { FirstName, LastName } = User;
+
+	const Name = FirstName + ' ' + LastName;
+	const VerifyPresence = () => {
+		if (Name === props.Object.UserName) {
+			return true;
+		}
+
+		return false;
+	};
 
 	const CurrentUser = FirstName + ' ' + LastName;
 
 	// Create formatter (English).
 
 	const UserUsername = '';
-	const { UserImg, UserName, Content, DateCreated, PostID } = props.Object;
+	const { _id, UserImg, UserName, Content, DateCreated, PostID } = props.Object;
 
-	/*
-	const [Avatar, setAvatar] = useState();
-	const path = require('../Images/daemon2.jpg');
-	setAvatar(path);
-*/
-	console.log(UserImg);
 	const patth2 = '../Images/daemon2.jpg';
-	console.log(UserName);
-	console.log(Content);
-	console.log(DateCreated);
-	console.log(PostID);
 
 	const [SubmitContent, setContent] = useState('');
 	//Add error system after
-	const SubmitComment = async () => {
-		const Body = {
-			UserImg: CurrentUserImage,
-			UserName: CurrentUser,
-			Content: SubmitContent,
-			DateCreated: date.format(now, 'ddd, MMM DD YYYY'),
-			PostID: PostID,
-		};
-
-		console.log('Body is ');
-		console.log(Body);
+	const DeleteComments = async () => {
 		try {
-			const res = await SendComment(Body);
-			console.log('Comment has been added');
+			console.log('Inside Delete Comment');
+			//console.log(props.Object);
+			const res = await DeleteComment(_id);
+			const AllPosts = await dispatch(getAllPosts());
+			dispatch(ImportPosts(AllPosts));
 			console.log(res);
 		} catch (err) {
 			console.log(err);
@@ -109,11 +103,17 @@ export default function Comments(props) {
 						</Grid>
 					</Grid>
 					<Divider variant='' style={{ margin: '0px 0' }} />
-					<Tooltip title='Delete Comment'>
-						<IconButton>
-							<FolderDeleteIcon />
-						</IconButton>
-					</Tooltip>
+					{VerifyPresence() && (
+						<Tooltip
+							title='Delete Comment'
+							onClick={() => {
+								DeleteComments();
+							}}>
+							<IconButton>
+								<FolderDeleteIcon />
+							</IconButton>
+						</Tooltip>
+					)}
 				</Box>
 			</Paper>
 		</div>
