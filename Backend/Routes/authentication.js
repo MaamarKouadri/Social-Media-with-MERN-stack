@@ -16,7 +16,6 @@ router.post('/Create', UserController.createUser);
 
 router.post('/login', UserController.login);
 
-//Get User by Email
 router.get('/AllUsers', async (req, res) => {
 	console.log('Inside retreive all  users route ');
 	try {
@@ -28,6 +27,29 @@ router.get('/AllUsers', async (req, res) => {
 			AllIDs.push(x._id);
 		});
 
+		res.status(200).json(AllIDs);
+	} catch (err) {
+		console.log(err);
+		res.status(500).json(err);
+	}
+});
+
+router.get('/AllUsers/Details', async (req, res) => {
+	console.log('Inside retreive all  users Details');
+	try {
+		const AllUsers = await UserDB.find({});
+
+		const AllIDs = [];
+		console.log('User details');
+		AllUsers.forEach(function (x) {
+			const Entry = {
+				Name:
+					x.FirstName + ' ' + x.LastName + '-' + x.img + '-' + x._id.toString(),
+			};
+			AllIDs.push(Entry);
+		});
+
+		console.log(AllIDs);
 		res.status(200).json(AllIDs);
 	} catch (err) {
 		console.log(err);

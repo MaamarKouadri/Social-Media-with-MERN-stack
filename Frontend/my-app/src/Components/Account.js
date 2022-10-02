@@ -49,6 +49,7 @@ import Alert from '@mui/material/Alert';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import { LogoutUser } from '../Store/LoginSlice';
+import { DeleteUser } from '../Store/userAction';
 
 const darkTheme = createTheme({
 	palette: {
@@ -78,6 +79,15 @@ export default function UpdateAccount() {
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+
+	const DeleteTheUser = async () => {
+		try {
+			const res = await DeleteUser(_id);
+			navigate('/');
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
 	const [FirstName, setFirstName] = useState('');
 	const handleFirstName = (event) => {
@@ -418,7 +428,18 @@ export default function UpdateAccount() {
 								onClick={() => {
 									MakeApiCall();
 								}}>
-								Update
+								Update Account
+							</Button>
+							<Button
+								variant='contained'
+								href='#contained-buttons'
+								sx={{
+									marginInline: 2,
+								}}
+								onClick={() => {
+									DeleteTheUser();
+								}}>
+								Delete Account
 							</Button>
 						</FormControl>
 					</Grid>

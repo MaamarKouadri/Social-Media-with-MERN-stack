@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+import { useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Avatar from '@mui/material/Avatar';
@@ -16,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { FetchOtherUser } from '../Store/userLogin';
 import { LoadOtherUser } from '../Store/OtherUserSlice';
 import { useDispatch } from 'react-redux';
+import { getAllUsersDetails } from '../Store/userAction';
 
 // ISO 3166-1 alpha-2
 // ⚠️ No support for IE 11
@@ -58,7 +60,24 @@ const SplitOption3 = (text) => {
 	return array[2];
 };
 
-export default function ProfileSearch() {
+export default function ProfileSearch(props) {
+	const [ArrayProfiles, setArrayProfiles] = useState([]);
+	useEffect(() => {
+		console.log('The details hook use effect ');
+		const FetchArray = async () => {
+			try {
+				const Array = await getAllUsersDetails();
+				console.log('The array of UseEffect is  ');
+				console.log(Array);
+				setArrayProfiles(Array);
+			} catch (err) {
+				console.log('The error of get post details is ');
+				console.log(err);
+			}
+		};
+		FetchArray();
+	}, [props]);
+
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const [clicked, setClicked] = React.useState(false);
@@ -117,7 +136,7 @@ export default function ProfileSearch() {
 			<Autocomplete
 				id='country-select-demo'
 				style={{ width: 250, paddingTop: 4 }}
-				options={Users}
+				options={ArrayProfiles}
 				getOptionLabel={(option) => option.Name}
 				renderOption={(option) => (
 					<Box

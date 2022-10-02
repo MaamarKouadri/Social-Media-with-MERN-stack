@@ -128,15 +128,41 @@ router.get('/AllUsers/all', async (req, res, next) => {
 	}
 });
 
-router.delete('/:email', async (req, res) => {
-	console.log('');
-	console.log(req);
+router.delete('/:id', async (req, res) => {
+	console.log('Inside delete user request ');
 	try {
-		const EmailDelete = req.params.email;
+		const ID = req.params.id;
 		console.log('User Id is ');
-		console.log(EmailDelete);
+		console.log(ID);
+
+		//Retreiving the User
+		const User = await UserDB.findById(ID);
+
+		const { FirstName, LastName } = User;
+
+		const Username = FirstName + ' ' + LastName;
+
+		console.log('Username is ');
+		console.log(Username);
+
+		//Deleting all the posts of the User
+
+		/*
+		User.posts.forEach((post) => {
+			console.log(post.toString());
+			PostDB.deleteOne({
+				_id: post,
+			});
+		});
+		*/
+
+		DeletePosts = await PostDB.deleteMany({
+			creator: ID,
+		});
+		const DeleteComments = await CommentDB.deleteMany({ UserName: Username });
+
 		const field = await UserDB.deleteOne({
-			email: { $in: [EmailDelete] },
+			_id: ID,
 		});
 
 		console.log(field);

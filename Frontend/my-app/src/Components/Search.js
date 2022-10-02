@@ -12,48 +12,8 @@ import ProfileSearch from './TestSearch';
 import SearchProfile from './SearchProfile';
 import TestSearch from './TestSearch';
 
-/*
-		<TextField
-			width='60ch'
-			height='40ch'
-			id='standard-bare'
-			variant='filled'
-			label='Search Friends '
-			color='primary'
-			sx={{ my: 1, backgroundColor: 'white' }}
-			InputProps={{
-				backgroundcolor: 'white',
-				endAdornment: (
-					<IconButton>
-						<SearchIcon />
-					</IconButton>
-				),
-			}}
-		/>
-		*/
-
-/*
-		<Autocomplete
-			disablePortal
-			id='combo-box-demo'
-			options={top100Films}
-			getOptionLabel={(option) => option.title}
-			sx={{ width: 300, backgroundColor: 'white' }}
-			renderInput={(params) => (
-				<div>
-					{' '}
-					<TextField {...params} label='Users ' />
-					<Avatar
-						src={require('http://t2.gstatic.com/licensed-image?q=tbn:ANd9GcR8mRsgy0E0rw6Whm06Iu2_4chDeIR-WbtUxzMYFJHeDJTn6eY_WOtZo1ls8RY6By15')}
-						sx={{ width: 45, height: 45 }}
-					/>
-				</div>
-			)}
-		/>
-		*/
-
 export default function Search() {
-	return <TestSearch />;
+	return <TestSearch message={'yes'} />;
 }
 
 // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top

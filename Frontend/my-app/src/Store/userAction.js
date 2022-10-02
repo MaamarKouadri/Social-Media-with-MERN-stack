@@ -26,3 +26,27 @@ export const getAllUsers = async () => {
 		console.log(error);
 	}
 };
+
+export const getAllUsersDetails = async (id) => {
+	try {
+		const AllUsers = await axios.get(
+			'http://localhost:5000/auth/AllUsers/Details'
+		);
+		return AllUsers.data;
+		//	const res = await axios.getUserFail('http://localhost:5000/auth/Retreive', data);
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+export const DeleteUser = async (id) => {
+	console.log('The ID inside Delete User');
+	console.log(id);
+	try {
+		const res = await axios.delete(`http://localhost:5000/Users/${id}`);
+
+		//	const res = await axios.getUserFail('http://localhost:5000/auth/Retreive', data);
+	} catch (error) {
+		console.log(error);
+	}
+};

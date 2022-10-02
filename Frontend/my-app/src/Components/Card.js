@@ -36,6 +36,7 @@ import date from 'date-and-time';
 import { SendComment, getAllComment } from '../Store/CommentsAction';
 import FolderDeleteIcon from '@mui/icons-material/FolderDelete';
 import { DeletePost } from '../Store/PostAction';
+import Divider from '@mui/material/Divider';
 import {
 	SendPost,
 	getAllPosts,
@@ -245,9 +246,12 @@ export default function RecipeReviewCard(props) {
 					// reset the state of your app so the error doesn't happen again
 				}}>
 				<CardHeader
+					sx={{
+						border: 'solid',
+					}}
 					avatar={
 						<Avatar
-							sx={{ bgcolor: red[500] }}
+							sx={{ bgcolor: red[500], height: 50, width: 50 }}
 							src={AvatarUrl}
 							aria-label='recipe'></Avatar>
 					}
@@ -264,8 +268,8 @@ export default function RecipeReviewCard(props) {
 							</Tooltip>
 						)
 					}
-					title={title}
-					subheader={createdAt}
+					title={'Title : ' + title}
+					subheader={'Posted ' + createdAt}
 				/>
 			</ErrorBoundary>
 			<CardMedia
@@ -282,6 +286,7 @@ export default function RecipeReviewCard(props) {
 					{content}
 				</Typography>
 			</CardContent>
+			<Divider sx={{ borderBottomWidth: '2px', backgroundColor: 'black' }} />
 			<CardActions disableSpacing>
 				<TableRow
 					sx={{
