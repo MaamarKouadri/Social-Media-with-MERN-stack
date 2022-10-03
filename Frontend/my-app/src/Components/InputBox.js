@@ -36,8 +36,20 @@ import {
 	getUserSuccess,
 	getUserFail,
 } from '../Store/userSlice';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
+import { ErrorBoundary } from 'react-error-boundary';
 
 export default function InputBox(props) {
+	function ErrorFallback({ error, resetErrorBoundary }) {
+		return (
+			<div role='alert'>
+				<p>Something went wrong:</p>
+				<pre>{error.message}</pre>
+				<button onClick={resetErrorBoundary}>Try again</button>
+			</div>
+		);
+	}
 	const dispatch = useDispatch();
 	const [PostsList, setPosts] = useState([]);
 	useEffect(() => {
@@ -51,6 +63,54 @@ export default function InputBox(props) {
 		};
 		FetchPosts();
 	}, [props]);
+
+	const theme = createTheme({
+		breakpoints: {
+			values: {
+				xs: 0,
+				sm: 600,
+				md: 900,
+				lg: 1200,
+				xl: 1536,
+			},
+		},
+	});
+
+	//down
+	//only
+	//between
+	//up
+
+	/*
+xs: 0,
+				sm: 600,
+				md: 900,
+				lg: 1200,
+				xl: 1536,
+*/
+	const Root = styled('div')(({ theme }) => ({
+		padding: theme.spacing(1),
+		[theme.breakpoints.up('xs')]: {
+			backgroundColor: 'red',
+			width: '40%',
+		},
+		[theme.breakpoints.up('sm')]: {
+			backgroundColor: 'blue',
+			width: '40%',
+		},
+		[theme.breakpoints.up('md')]: {
+			backgroundColor: 'gren',
+			width: '40%',
+		},
+		[theme.breakpoints.up('lg')]: {
+			backgroundColor: 'yellow',
+			width: '100%',
+		},
+		[theme.breakpoints.up('xl')]: {
+			backgroundColor: 'orange',
+			width: '40%',
+		},
+	}));
 
 	const User = useSelector((state) => state.User.user);
 	const ThePosts = useSelector((state) => state.Post.PostsList);
@@ -114,6 +174,8 @@ export default function InputBox(props) {
 				dispatch(getUserSuccess(resUser));
 				setPosts(AllPosts);
 
+				document.getElementById('outlined-multiline-static').value = '';
+				document.getElementById('outlined-multiline-static2').value = '';
 				console.log('All Posts are ');
 				console.log(AllPosts);
 			}
@@ -123,152 +185,166 @@ export default function InputBox(props) {
 	};
 
 	return (
-		<Box
-			sx={{
-				display: 'flex',
-
-				flexDirection: 'column',
+		<ErrorBoundary
+			FallbackComponent={ErrorFallback}
+			onReset={() => {
+				// reset the state of your app so the error doesn't happen again
 			}}>
 			<Box
-				alignItems='center'
 				sx={{
 					display: 'flex',
 
 					flexDirection: 'column',
 				}}>
-				{ErrorMessage !== null && (
-					<Alert severity='error' sx={{ m: 2 }}>
-						{ErrorMessage}
-					</Alert>
-				)}
 				<Box
+					alignItems='center'
 					sx={{
 						display: 'flex',
-						backgroundColor: 'white',
-						borderRadius: '20px',
-						width: '100%',
-						borderStyle: 'solid',
 
-						pt: 1,
-
-						pb: 1,
-						mb: 2,
-						position: 'relative',
+						flexDirection: 'column',
 					}}>
-					<Avatar
-						position='absolute'
-						src={path}
-						sx={{
-							width: 60,
-							height: 60,
-							mr: 2,
-							ml: 2,
-							mb: 2,
-
-							left: 0,
-							right: 0,
-						}}
-					/>
-
+					{ErrorMessage !== null && (
+						<Alert severity='error' sx={{ m: 2 }}>
+							{ErrorMessage}
+						</Alert>
+					)}
 					<Box
 						sx={{
-							width: '65ch',
-
 							display: 'flex',
+							backgroundColor: 'white',
+							borderRadius: '20px',
+							width: '100%',
+							borderStyle: 'solid',
 
-							mt: 2,
-							mr: 3,
-							flexDirection: 'column',
-							//justifyContent: 'space-evenly',
+							pt: 1,
+
+							pb: 1,
+							mb: 2,
+							position: 'relative',
 						}}>
-						<Typography
-							variant='h6'
-							component='h6'
-							sx={{ color: '	black', mb: 2 }}>
-							{new Date().toLocaleDateString()}
-						</Typography>
-						<TextField
-							id='outlined-multiline-static'
-							label='Title of the post'
-							className='FieldTexts'
-							multiline
-							rows={1}
-							sx={{ pb: 2 }}
-							onChange={(e) => {
-								handleTitle(e);
+						<Avatar
+							position='absolute'
+							src={path}
+							sx={{
+								width: 60,
+								height: 60,
+								mr: 2,
+								ml: 2,
+								mb: 2,
+
+								left: 0,
+								right: 0,
+								border: '2px solid black',
 							}}
 						/>
-						<TextField
-							id='outlined-multiline-static'
-							label='Post description'
-							className='FieldTexts'
-							multiline
-							rows={3}
-							onChange={(e) => {
-								handleProfileDescription(e);
-							}}
-						/>
+
 						<Box
 							sx={{
-								display: 'flex',
-								flexDirection: 'column',
-								pt: 2,
-								alignItems: 'center',
-								justifyContent: 'center',
-							}}>
-							<Tooltip title='Upload Post Image '>
-								<IconButton
-									sx={{
-										Color: 'black',
-										borderStyle: 'groove',
-										borderRadius: '25px',
-										p: 1,
-									}}
-									aria-label='upload picture'
-									component='label'>
-									<input
-										accept='image/*'
-										name='image'
-										id='image'
-										type='file'
-										onChange={(e) => {
-											handleImage(e);
-										}}
-									/>
-									<AddAPhotoIcon />
-								</IconButton>
-							</Tooltip>
+								width: '65ch',
 
-							<Button
-								variant='contained'
-								href='#contained-buttons'
-								className='Submit'
+								display: 'flex',
+
+								mt: 2,
+								mr: 3,
+								flexDirection: 'column',
+								//justifyContent: 'space-evenly',
+							}}>
+							<Typography
+								variant='h6'
+								component='h6'
+								sx={{ color: '	black', mb: 2 }}>
+								{'Date: ' + new Date().toLocaleDateString()}
+							</Typography>
+							<Divider
 								sx={{
-									marginInline: 2,
-									m: 1,
-									display: 'flex-end',
+									borderBottomWidth: '2px',
+									backgroundColor: 'black',
+									mb: 2,
 								}}
-								onClick={() => {
-									CreatePost();
+							/>
+							<TextField
+								id='outlined-multiline-static'
+								label='Title of the post'
+								className='FieldTexts'
+								multiline
+								rows={1}
+								sx={{ mb: 1 }}
+								onChange={(e) => {
+									handleTitle(e);
+								}}
+							/>
+							<TextField
+								id='outlined-multiline-static2'
+								label='Post description'
+								className='FieldTexts'
+								multiline
+								rows={3}
+								sx={{}}
+								onChange={(e) => {
+									handleProfileDescription(e);
+								}}
+							/>
+							<Box
+								sx={{
+									display: 'flex',
+									flexDirection: 'column',
+									pt: 2,
+									alignItems: 'center',
+									justifyContent: 'center',
 								}}>
-								Post
-							</Button>
+								<Tooltip title='Upload Post Image '>
+									<IconButton
+										sx={{
+											border: 'solid',
+											borderRadius: '25px',
+											m: 1,
+										}}
+										aria-label='upload picture'
+										component='label'>
+										<input
+											accept='image/*'
+											name='image'
+											id='image'
+											type='file'
+											onChange={(e) => {
+												handleImage(e);
+											}}
+										/>
+										<AddAPhotoIcon />
+									</IconButton>
+								</Tooltip>
+
+								<Button
+									variant='contained'
+									href='#contained-buttons'
+									className='Submit'
+									sx={{
+										marginInline: 2,
+										m: 1,
+										display: 'flex-end',
+									}}
+									onClick={() => {
+										CreatePost();
+									}}>
+									Post
+								</Button>
+							</Box>
 						</Box>
 					</Box>
 				</Box>
-			</Box>
-			<Box
-				sx={{
-					display: 'flex',
+				<Box
+					sx={{
+						display: 'flex',
 
-					flexDirection: 'column',
+						flexDirection: 'column',
 
-					justifyContent: 'space-evenly',
-				}}>
-				{ThePosts?.map((id) => (
-					<Card PostID={id} />
-				))}
+						justifyContent: 'space-evenly',
+					}}>
+					{ThePosts?.map((id) => (
+						<Card PostID={id} />
+					))}
+				</Box>
 			</Box>
-		</Box>
+		</ErrorBoundary>
 	);
 }

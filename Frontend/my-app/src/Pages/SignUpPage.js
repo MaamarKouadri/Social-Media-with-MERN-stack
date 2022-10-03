@@ -3,9 +3,10 @@
 import React from 'react';
 import Header from '../Components/Header';
 import LoginBox from '../Components/LoginBox';
+import HomePage from './HomePage';
 import { styled } from '@mui/material/styles';
 
-const LogInPage = () => {
+const SignUpPage = () => {
 	const Root = styled('div')(({ theme }) => ({
 		padding: theme.spacing(1),
 		[theme.breakpoints.up('xs')]: {
@@ -37,10 +38,10 @@ const LogInPage = () => {
 	return (
 		<div>
 			<Root>
-				<LoginBox />
+				<HomePage />
 			</Root>
 		</div>
 	);
 };
 
-export default LogInPage;
+export default SignUpPage;

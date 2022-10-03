@@ -135,7 +135,15 @@ export default function ProfileSearch(props) {
 			}}>
 			<Autocomplete
 				id='country-select-demo'
-				style={{ width: 250, paddingTop: 4 }}
+				sx={{
+					width: {
+						xl: 250,
+						lg: 250,
+						md: 250,
+						sm: 450,
+						xs: 400,
+					},
+				}}
 				options={ArrayProfiles}
 				getOptionLabel={(option) => option.Name}
 				renderOption={(option) => (

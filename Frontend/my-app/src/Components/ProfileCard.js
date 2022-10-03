@@ -62,7 +62,22 @@ export default function ProfileCard(props) {
 						src={require(`../Images/${img}`)}
 						//src={require(`${image02}`)}
 						//alt='profile picture'
-						sx={{ width: 600, height: 300 }}
+						sx={{
+							width: {
+								xl: '100%',
+								lg: '100%',
+								md: '100%',
+								sm: '100%',
+								xs: '100%',
+							},
+							height: {
+								xl: 300,
+								lg: 300,
+								md: 300,
+								sm: 300,
+								xs: 300,
+							},
+						}}
 						id='image'
 					/>
 					<Box

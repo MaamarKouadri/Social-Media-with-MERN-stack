@@ -266,8 +266,6 @@ export default function UpdateAccount() {
 			}}>
 			<Box
 				container
-				spacing={{ xs: 2, sm: 2, md: 2 }}
-				columns={{ xs: 2, sm: 4, md: 10 }}
 				sx={{
 					display: 'flex',
 					flexDirection: 'row',
@@ -275,10 +273,6 @@ export default function UpdateAccount() {
 					alignItems: 'center',
 
 					margin: 'auto',
-					ml: 10,
-					pl: 15,
-					mt: 5,
-					mb: 5,
 				}}>
 				<Box
 					sx={{
@@ -288,16 +282,38 @@ export default function UpdateAccount() {
 						alignItems: 'center',
 						display: 'flex',
 						flexDirection: 'column',
-						mt: 4,
-						mr: 4,
-						mb: 4,
+						border: 'solid',
 
 						alignItems: 'center',
 						justifyContent: 'center',
-						width: 600,
+						width: {
+							xl: 650,
+							lg: 600,
+							md: 450,
+							sm: 450,
+							xs: 400,
+						},
+						height: {
+							xl: 570,
+							lg: 560,
+							md: 580,
+							sm: 580,
+							xs: 650,
+						},
 					}}>
 					{ErrorMessage !== null && (
-						<Alert severity='error' sx={{ m: 2 }}>
+						<Alert
+							severity='error'
+							sx={{
+								m: 2,
+								width: {
+									xl: '60ch',
+									lg: '60ch',
+									md: '40ch',
+									sm: '40ch',
+									xs: '30ch',
+								},
+							}}>
 							{ErrorMessage}
 						</Alert>
 					)}
@@ -306,7 +322,7 @@ export default function UpdateAccount() {
 							display: 'flex',
 							flexDirection: 'row',
 						}}>
-						<Typography variant='h4' sx={{ color: '#3483eb', mb: 2 }}>
+						<Typography variant='h5' sx={{ color: '#3483eb' }}>
 							Update Profile Form
 						</Typography>
 					</Box>
@@ -314,7 +330,19 @@ export default function UpdateAccount() {
 						<TextField
 							label='First Name'
 							id='outlined-start-adornment'
-							sx={{ m: 1, width: '25ch', color: 'white' }}
+							sx={{
+								m: 1,
+
+								width: {
+									xl: '25ch',
+									lg: '25ch',
+									md: '20ch',
+									sm: '20ch',
+									xs: '15ch',
+								},
+
+								color: 'white',
+							}}
 							onChange={(e) => {
 								handleFirstName(e);
 							}}
@@ -323,7 +351,16 @@ export default function UpdateAccount() {
 						<TextField
 							label='Last Name'
 							id='outlined-start-adornment'
-							sx={{ m: 1, width: '25ch' }}
+							sx={{
+								m: 1,
+								width: {
+									xl: '25ch',
+									lg: '25ch',
+									md: '20ch',
+									sm: '20ch',
+									xs: '15ch',
+								},
+							}}
 							onChange={(e) => {
 								handleLastName(e);
 							}}
@@ -338,7 +375,16 @@ export default function UpdateAccount() {
 								className='FieldTexts'
 								type='email'
 								id='outlined-start-adornment'
-								sx={{ m: 1, width: '25ch' }}
+								sx={{
+									m: 1,
+									width: {
+										xl: '25ch',
+										lg: '25ch',
+										md: '20ch',
+										sm: '20ch',
+										xs: '15ch',
+									},
+								}}
 								onChange={(e) => {
 									handlProfession(e);
 								}}
@@ -354,7 +400,16 @@ export default function UpdateAccount() {
 								onChange={(e) => {
 									handleCountry(e);
 								}}
-								sx={{ m: 1, width: '25ch' }}
+								sx={{
+									m: 1,
+									width: {
+										xl: '25ch',
+										lg: '25ch',
+										md: '20ch',
+										sm: '20ch',
+										xs: '15ch',
+									},
+								}}
 								SelectProps={{
 									native: true,
 								}}
@@ -447,7 +502,7 @@ export default function UpdateAccount() {
 				<Grid
 					container
 					spacing={1}
-					xs={1}
+					xs={2}
 					sm={2}
 					md={5}
 					sx={{
@@ -458,13 +513,33 @@ export default function UpdateAccount() {
 					<Typography
 						variant='h4'
 						component='h4'
-						sx={{ color: '#3483eb', mb: 2 }}>
+						sx={{
+							color: '#3483eb',
+							mb: 2,
+							fontSize: {
+								xl: 35,
+								lg: 35,
+								md: 30,
+								sm: 25,
+								xs: 20,
+							},
+						}}>
 						Update your Profile
 					</Typography>
 					<Typography
 						variant='h6'
 						component='h4'
-						sx={{ color: 'black', mb: 2 }}>
+						sx={{
+							color: 'black',
+							mb: 2,
+							fontSize: {
+								xl: 35,
+								lg: 35,
+								md: 30,
+								sm: 25,
+								xs: 20,
+							},
+						}}>
 						<span>You can update any ,none or all fields</span>
 						<br></br>
 					</Typography>

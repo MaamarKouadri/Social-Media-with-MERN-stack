@@ -292,11 +292,10 @@ export default function HomePage() {
 		<Grid
 			container
 			spacing={{ xs: 2, sm: 2, md: 2 }}
-			columns={{ xs: 2, sm: 4, md: 10 }}
 			sx={{
 				display: 'flex',
 				flexDirection: 'row',
-				height: '100vh',
+
 				alignItems: 'center',
 				margin: 'auto',
 			}}>
@@ -305,6 +304,7 @@ export default function HomePage() {
 					backgroundColor: 'white',
 					color: 'black',
 					margin: 'auto',
+					border: 'solid',
 					alignItems: 'center',
 					display: 'flex',
 					flexDirection: 'column',
@@ -314,7 +314,13 @@ export default function HomePage() {
 
 					alignItems: 'center',
 					justifyContent: 'center',
-					width: 600,
+					width: {
+						xl: 650,
+						lg: 600,
+						md: 600,
+						sm: 450,
+						xs: 400,
+					},
 				}}>
 				{ErrorMessage !== null && (
 					<Alert severity='error' sx={{ m: 2 }}>
@@ -334,16 +340,36 @@ export default function HomePage() {
 					<TextField
 						label='First Name'
 						id='outlined-start-adornment'
-						sx={{ m: 1, width: '25ch', color: 'white' }}
+						sx={{
+							m: 1,
+							width: {
+								xl: '30ch',
+								lg: '30ch',
+								md: '30ch',
+								sm: '20ch',
+								xs: '20ch',
+							},
+							color: 'white',
+						}}
 						onChange={(e) => {
 							handleFirstName(e);
 						}}
 						className='FieldTexts'
 					/>
+
 					<TextField
 						label='Last Name'
 						id='outlined-start-adornment'
-						sx={{ m: 1, width: '25ch' }}
+						sx={{
+							m: 1,
+							width: {
+								xl: '30ch',
+								lg: '30ch',
+								md: '30ch',
+								sm: '20ch',
+								xs: '20ch',
+							},
+						}}
 						onChange={(e) => {
 							handleLastName(e);
 						}}
@@ -355,7 +381,16 @@ export default function HomePage() {
 						<TextField
 							label='Email'
 							id='outlined-start-adornment'
-							sx={{ m: 1, width: '25ch' }}
+							sx={{
+								m: 1,
+								width: {
+									xl: '30ch',
+									lg: '30ch',
+									md: '30ch',
+									sm: '20ch',
+									xs: '20ch',
+								},
+							}}
 							onChange={(e) => {
 								handleemail(e);
 							}}
@@ -364,7 +399,16 @@ export default function HomePage() {
 					</FormControl>
 
 					<FormControl
-						sx={{ m: 1, width: '25ch' }}
+						sx={{
+							m: 1,
+							width: {
+								xl: '30ch',
+								lg: '30ch',
+								md: '30ch',
+								sm: '20ch',
+								xs: '20ch',
+							},
+						}}
 						variant='outlined'
 						className='FieldTexts'>
 						<InputLabel htmlFor='outlined-adornment-password'>
@@ -397,7 +441,16 @@ export default function HomePage() {
 							className='FieldTexts'
 							type='email'
 							id='outlined-start-adornment'
-							sx={{ m: 1, width: '25ch' }}
+							sx={{
+								m: 1,
+								width: {
+									xl: '30ch',
+									lg: '30ch',
+									md: '30ch',
+									sm: '20ch',
+									xs: '20ch',
+								},
+							}}
 							onChange={(e) => {
 								handlProfession(e);
 							}}
@@ -414,7 +467,16 @@ export default function HomePage() {
 							onChange={(e) => {
 								handlAge(e, today);
 							}}
-							sx={{ m: 1, width: '25ch' }}
+							sx={{
+								m: 1,
+								width: {
+									xl: '30ch',
+									lg: '30ch',
+									md: '30ch',
+									sm: '20ch',
+									xs: '20ch',
+								},
+							}}
 						/>
 					</FormControl>
 				</Grid>
@@ -436,10 +498,23 @@ export default function HomePage() {
 				<Grid>
 					<FormControl sx={{ py: 2 }}>
 						<Grid
-							sx={{ borderStyle: 'groove', borderRadius: '25px', p: 1 }}
+							sx={{
+								borderStyle: 'groove',
+								borderRadius: '25px',
+								p: 1,
+							}}
 							className='FieldTexts'>
 							<IconButton
-								sx={{ Color: 'black' }}
+								sx={{
+									Color: 'black',
+									width: {
+										xl: '20ch',
+										lg: '20ch',
+										md: '20ch',
+										sm: '15ch',
+										xs: '15ch',
+									},
+								}}
 								aria-label='upload picture'
 								component='label'>
 								<input
@@ -464,7 +539,16 @@ export default function HomePage() {
 							onChange={(e) => {
 								handleCountry(e);
 							}}
-							sx={{ m: 1, width: '25ch' }}
+							sx={{
+								m: 1,
+								width: {
+									xl: '20ch',
+									lg: '20ch',
+									md: '25ch',
+									sm: '20ch',
+									xs: '19ch',
+								},
+							}}
 							SelectProps={{
 								native: true,
 							}}
@@ -513,9 +597,9 @@ export default function HomePage() {
 			<Grid
 				container
 				spacing={3}
-				xs={1}
-				sm={2}
-				md={5}
+				xs={2}
+				sm={3}
+				md={3}
 				sx={{
 					display: 'flex',
 					flexDirection: 'column',
@@ -523,10 +607,54 @@ export default function HomePage() {
 				<Typography
 					variant='h3'
 					component='h4'
-					sx={{ color: '#3483eb', mb: 2 }}>
+					sx={{
+						color: '#3483eb',
+						mb: 2,
+						ml: {
+							xl: 0,
+							lg: 0,
+							md: 0,
+							sm: 3,
+							xs: 2,
+						},
+						mr: {
+							xl: 4,
+							lg: 4,
+							md: 0,
+							sm: 0,
+							xs: 0,
+						},
+						fontSize: {
+							xl: 35,
+							lg: 35,
+							md: 30,
+							sm: 20,
+							xs: 15,
+						},
+					}}>
 					Create your account
 				</Typography>
-				<Typography variant='h6' component='h4' sx={{ color: 'black', mb: 2 }}>
+				<Typography
+					variant='h6'
+					component='h4'
+					sx={{
+						color: 'black',
+						mb: 2,
+						ml: {
+							xl: 0,
+							lg: 0,
+							md: 0,
+							sm: 3,
+							xs: 2,
+						},
+						fontSize: {
+							xl: 35,
+							lg: 35,
+							md: 30,
+							sm: 20,
+							xs: 15,
+						},
+					}}>
 					<span>Make sure a value for all fields is entered </span>
 					<br />
 					<span> all those fields are required. </span>

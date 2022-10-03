@@ -142,8 +142,6 @@ export default function LoginBox() {
 	return (
 		<Grid
 			container
-			spacing={{ xs: 2, sm: 2, md: 2 }}
-			columns={{ xs: 2, sm: 4, md: 10 }}
 			sx={{
 				display: 'flex',
 				flexDirection: 'row',
@@ -153,9 +151,9 @@ export default function LoginBox() {
 			}}>
 			<Grid
 				container
-				xs={1}
-				sm={2}
-				md={5}
+				xs={8}
+				sm={8}
+				md={6}
 				sx={{
 					backgroundColor: 'white',
 					color: 'black',
@@ -163,12 +161,42 @@ export default function LoginBox() {
 					alignItems: 'center',
 					display: 'flex',
 					flexDirection: 'column',
-					mt: 15,
-					minWidth: '120px',
-					minHeight: '340px',
+					border: 'solid',
+					mt: {
+						xl: 5,
+						lg: 5,
+						md: 5,
+						sm: 5,
+						xs: 5,
+					},
+
+					width: {
+						xl: 650,
+						lg: 600,
+						md: 450,
+						sm: 450,
+						xs: 450,
+					},
+					height: {
+						xl: 450,
+						lg: 480,
+						md: 480,
+						sm: 480,
+						xs: 520,
+					},
 				}}>
 				{ErrorMessage !== '' && (
-					<Alert severity='error' sx={{ m: 2 }}>
+					<Alert
+						severity='error'
+						sx={{
+							width: {
+								xl: '45ch',
+								lg: '40ch',
+								md: '40ch',
+								sm: '40ch',
+								xs: '30ch',
+							},
+						}}>
 						{ErrorMessage}
 					</Alert>
 				)}
@@ -183,14 +211,37 @@ export default function LoginBox() {
 					<TextField
 						label='Email'
 						id='outlined-start-adornment'
-						sx={{ m: 1, width: '45ch', mb: 2 }}
+						sx={{
+							m: 1,
+							width: {
+								xl: '45ch',
+								lg: '45ch',
+								md: '40ch',
+								sm: '40ch',
+								xs: '30ch',
+							},
+
+							mb: 2,
+						}}
 						onChange={(e) => {
 							handleemail(e);
 						}}
 					/>
 				</FormControl>
 
-				<FormControl sx={{ m: 1, width: '45ch', mb: 4 }} variant='outlined'>
+				<FormControl
+					sx={{
+						m: 1,
+						width: {
+							xl: '45ch',
+							lg: '45ch',
+							md: '40ch',
+							sm: '40ch',
+							xs: '30ch',
+						},
+						mb: 4,
+					}}
+					variant='outlined'>
 					<InputLabel htmlFor='outlined-adornment-password'>
 						Password
 					</InputLabel>
@@ -244,8 +295,8 @@ export default function LoginBox() {
 			<Grid
 				container
 				spacing={3}
-				xs={1}
-				sm={2}
+				xs={3}
+				sm={3}
 				md={5}
 				sx={{
 					display: 'flex',
@@ -254,10 +305,38 @@ export default function LoginBox() {
 				<Typography
 					variant='h3'
 					component='h4'
-					sx={{ color: '#3483eb', mb: 2 }}>
+					sx={{
+						color: '#3483eb',
+						mb: 2,
+						fontSize: {
+							xl: 35,
+							lg: 35,
+							md: 30,
+							sm: 25,
+							xs: 20,
+						},
+					}}>
 					The Mini Social App
 				</Typography>
-				<Typography variant='h6' component='h4' sx={{ color: 'black', mb: 2 }}>
+				<Typography
+					variant='h6'
+					component='h4'
+					sx={{
+						color: 'black',
+						mb: 2,
+
+						mr: {
+							sm: 1,
+						},
+
+						fontSize: {
+							xl: 35,
+							lg: 35,
+							md: 30,
+							sm: 25,
+							xs: 20,
+						},
+					}}>
 					Post Things and Chat with your friends.
 				</Typography>
 			</Grid>

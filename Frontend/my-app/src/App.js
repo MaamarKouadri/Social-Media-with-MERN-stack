@@ -16,6 +16,7 @@ import MessengerPage from './Pages/MessengerPage';
 import HomePage from './Pages/HomePage';
 import OtherUserProfile from './Pages/OtherUserProfile';
 import { PersistGate } from 'redux-persist/integration/react';
+import SignUpPage from './Pages/SignUpPage';
 
 const App = () => {
 	return (
@@ -23,7 +24,7 @@ const App = () => {
 			<BrowserRouter>
 				<Routes>
 					<Route path='/' element={<LogInPage />} />
-					<Route path='/HomePage' element={<HomePage />} />
+					<Route path='/HomePage' element={<SignUpPage />} />
 					<Route path='/Messenger' element={<MessengerPage />} />
 					<Route path='/Feed' element={<Feed />} />
 					<Route path='/FriendsList' element={<FriendsList />} />

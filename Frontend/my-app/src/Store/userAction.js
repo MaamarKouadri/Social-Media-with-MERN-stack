@@ -44,8 +44,6 @@ export const DeleteUser = async (id) => {
 	console.log(id);
 	try {
 		const res = await axios.delete(`http://localhost:5000/Users/${id}`);
-
-		//	const res = await axios.getUserFail('http://localhost:5000/auth/Retreive', data);
 	} catch (error) {
 		console.log(error);
 	}

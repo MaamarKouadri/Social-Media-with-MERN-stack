@@ -24,9 +24,26 @@ import { styled } from '@mui/material/styles';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { createTheme } from '@mui/material/styles';
+import DrawerHeader from './DrawerHeader';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { ErrorBoundary } from 'react-error-boundary';
 
 const Header = () => {
 	let dispatch = useDispatch();
+	function ErrorFallback({ error, resetErrorBoundary }) {
+		return (
+			<div role='alert'>
+				<p>Something went wrong:</p>
+				<pre>{error.message}</pre>
+				<button onClick={resetErrorBoundary}>Try again</button>
+			</div>
+		);
+	}
+	const theme = createTheme();
+	console.log('The theme is ');
+	console.log(theme);
+
+	const isMatch = useMediaQuery(theme.breakpoints.down('md'));
 
 	const Logout = () => {
 		sessionStorage.removeItem('accessJWT');
@@ -94,68 +111,285 @@ const Header = () => {
 	};
 
 	return (
-		<AppBar
-			position='fixed'
-			sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-			<Container maxWidth='xl'>
-				<Toolbar disableGutters>
-					<Typography variant='h6' component='h6' sx={{ color: 'white' }}>
-						Mini Social App
-					</Typography>
-					<Box
-						sx={{
-							flexGrow: 1,
-							display: 'flex',
-							justifyContent: 'space-evenly',
-						}}>
-						<Search />
-						<Button
-							onClick={() => {
-								navigate('/Feed');
+		<ErrorBoundary
+			FallbackComponent={ErrorFallback}
+			onReset={() => {
+				// reset the state of your app so the error doesn't happen again
+			}}>
+			<AppBar
+				position='fixed'
+				sx={{
+					zIndex: (theme) => theme.zIndex.drawer + 1,
+				}}>
+				{isMatch ? (
+					<Toolbar disableGutters>
+						<DrawerHeader
+							sx={{
+								ml: {
+									xl: 1,
+									lg: 8,
+									md: 8,
+									sm: 8,
+									xs: 8,
+								},
+								mr: {
+									xl: 0,
+									lg: 0,
+									md: 0,
+									sm: 4,
+									xs: 6,
+								},
 							}}
-							sx={{ my: 2, color: 'white', display: 'block' }}>
-							Feed
-						</Button>
+						/>
+						<Box
+							sx={{
+								flexGrow: 1,
+								display: 'flex',
+								justifyContent: 'space-evenly',
+								marginTop: {
+									xl: 2,
+									lg: 2,
+									md: 2,
+									sm: 2,
+									xs: 2,
+								},
+								marginBottom: {
+									sm: 2,
+									xs: 2,
+								},
+							}}>
+							<Search
+								sx={{
+									mt: {
+										xl: 1,
+										lg: 10,
+										md: 10,
+										sm: 10,
+										xs: 1,
+									},
 
-						<Button
-							onClick={() => {
-								navigate('/AccountSettings');
-							}}
-							sx={{ my: 2, color: 'white', display: 'block' }}>
-							Update/Delete Profile
-						</Button>
-						<Button
-							primary={'Log out '}
-							onClick={() => {
-								Logout();
-							}}
-							sx={{ my: 2, color: 'white', display: 'block' }}>
-							Log out
-						</Button>
-					</Box>
-					<Box sx={{ flexGrow: 0 }}>
-						<Tooltip title='Personal Profil'>
-							<StyledBadge
-								overlap='circular'
-								anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-								variant='dot'>
-								<Avatar
-									alt='Maamar Kouadri'
-									sx={{
-										width: 55,
-										height: 55,
-									}}
-									src={require(`../Images/${img}`)}
-									onClick={() => {
-										navigate('/PersonalProfile');
-									}}
-								/>
-							</StyledBadge>
-						</Tooltip>
-					</Box>
-				</Toolbar>
-			</Container>
-		</AppBar>
+									flex: {
+										md: 8,
+										sm: 8,
+										xs: 8,
+									},
+								}}
+							/>
+						</Box>
+					</Toolbar>
+				) : (
+					<Toolbar disableGutters>
+						<Typography
+							//variant='h6'
+							//component='h6'
+							sx={{
+								color: 'white',
+								fontSize: {
+									xl: 25,
+									lg: 20,
+									md: 20,
+									sm: 15,
+									xs: 20,
+								},
+								ml: {
+									xl: 1,
+									lg: 8,
+									md: 4,
+									sm: 8,
+									xs: 8,
+								},
+								mr: {
+									xl: 0,
+									lg: 0,
+									md: 0,
+									sm: 4,
+									xs: 6,
+								},
+							}}>
+							Mini Social App
+						</Typography>
+						<Box
+							sx={{
+								flexGrow: 1,
+								display: 'flex',
+								justifyContent: 'space-evenly',
+								marginTop: {
+									xl: 2,
+									lg: 2,
+									md: 2,
+									sm: 2,
+									xs: 2,
+								},
+							}}>
+							<Search
+								sx={{
+									mt: {
+										xl: 1,
+										lg: 10,
+										md: 10,
+										sm: 10,
+										xs: 1,
+									},
+								}}
+							/>
+							<Button
+								onClick={() => {
+									navigate('/Feed');
+								}}
+								sx={{ my: 2, color: 'white', display: 'block' }}>
+								Feed
+							</Button>
+
+							<Button
+								onClick={() => {
+									navigate('/AccountSettings');
+								}}
+								sx={{ my: 2, color: 'white', display: 'block' }}>
+								Update/Delete Profile
+							</Button>
+							<Button
+								primary={'Log out '}
+								onClick={() => {
+									Logout();
+								}}
+								sx={{
+									my: 2,
+									color: 'white',
+									display: 'block',
+								}}>
+								Log out
+							</Button>
+						</Box>
+						<Box sx={{ flexGrow: 0, mr: 2 }}>
+							<Tooltip title='Personal Profil'>
+								<StyledBadge
+									overlap='circular'
+									anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+									variant='dot'>
+									<Avatar
+										alt='Maamar Kouadri'
+										sx={{
+											width: 55,
+											height: 55,
+											border: '2px solid lightgray',
+										}}
+										src={require(`../Images/${img}`)}
+										onClick={() => {
+											navigate('/PersonalProfile');
+										}}
+									/>
+								</StyledBadge>
+							</Tooltip>
+						</Box>
+					</Toolbar>
+				)}
+				{/* 
+			 
+			 <Typography
+					//variant='h6'
+					//component='h6'
+					sx={{
+						color: 'white',
+						fontSize: {
+							xl: 25,
+							lg: 20,
+							md: 15,
+							sm: 15,
+							xs: 20,
+						},
+						ml: {
+							xl: 1,
+							lg: 8,
+							md: 8,
+							sm: 8,
+							xs: 8,
+						},
+						mr: {
+							xl: 0,
+							lg: 0,
+							md: 0,
+							sm: 4,
+							xs: 6,
+						},
+					}}>
+					Mini Social App
+				</Typography>
+			 
+			 
+			 
+
+				<Box
+					sx={{
+						flexGrow: 1,
+						display: 'flex',
+						justifyContent: 'space-evenly',
+						marginTop: {
+							xl: 2,
+							lg: 2,
+							md: 2,
+							sm: 2,
+							xs: 2,
+						},
+					}}>
+					<Search
+						sx={{
+							mt: {
+								xl: 1,
+								lg: 10,
+								md: 10,
+								sm: 10,
+								xs: 1,
+							},
+						}}
+					/>
+					<Button
+						onClick={() => {
+							navigate('/Feed');
+						}}
+						sx={{ my: 2, color: 'white', display: 'block' }}>
+						Feed
+					</Button>
+
+					<Button
+						onClick={() => {
+							navigate('/AccountSettings');
+						}}
+						sx={{ my: 2, color: 'white', display: 'block' }}>
+						Update/Delete Profile
+					</Button>
+					<Button
+						primary={'Log out '}
+						onClick={() => {
+							Logout();
+						}}
+						sx={{ my: 2, color: 'white', display: 'block' }}>
+						Log out
+					</Button>
+				</Box>
+				<Box sx={{ flexGrow: 0, mr: 2 }}>
+					<Tooltip title='Personal Profil'>
+						<StyledBadge
+							overlap='circular'
+							anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+							variant='dot'>
+							<Avatar
+								alt='Maamar Kouadri'
+								sx={{
+									width: 55,
+									height: 55,
+								}}
+								src={require(`../Images/${img}`)}
+								onClick={() => {
+									navigate('/PersonalProfile');
+								}}
+							/>
+						</StyledBadge>
+					</Tooltip>
+				</Box>
+			</Toolbar>
+			*/}
+			</AppBar>
+		</ErrorBoundary>
 	);
 };
 export default Header;

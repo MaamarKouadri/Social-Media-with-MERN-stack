@@ -210,6 +210,7 @@ export default function RecipeReviewCard(props) {
 		console.log(Body);
 		try {
 			const res = await SendComment(Body);
+			document.getElementById('commentField').value = '';
 			console.log('Comment has been added');
 			console.log(res);
 			FetchComments();
@@ -248,10 +249,16 @@ export default function RecipeReviewCard(props) {
 				<CardHeader
 					sx={{
 						border: 'solid',
+						color: 'black',
 					}}
 					avatar={
 						<Avatar
-							sx={{ bgcolor: red[500], height: 50, width: 50 }}
+							sx={{
+								bgcolor: red[500],
+								height: 50,
+								width: 50,
+								border: '2px solid black',
+							}}
 							src={AvatarUrl}
 							aria-label='recipe'></Avatar>
 					}
@@ -263,7 +270,7 @@ export default function RecipeReviewCard(props) {
 									DeleteThePost();
 								}}>
 								<IconButton>
-									<FolderDeleteIcon />
+									<FolderDeleteIcon color='black' />
 								</IconButton>
 							</Tooltip>
 						)
@@ -282,7 +289,7 @@ export default function RecipeReviewCard(props) {
 				alt='Paella dish'
 			/>
 			<CardContent>
-				<Typography variant='body2' color='text.secondary'>
+				<Typography variant='body1' color='black'>
 					{content}
 				</Typography>
 			</CardContent>
@@ -338,7 +345,7 @@ export default function RecipeReviewCard(props) {
 						justifyContent: 'space-between',
 					}}>
 					<TextField
-						id='outlined-multiline-static'
+						id='commentField'
 						label='Add a comment'
 						placeholder='Add a comment'
 						className='FieldTexts'

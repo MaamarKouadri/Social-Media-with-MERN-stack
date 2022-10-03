@@ -192,8 +192,6 @@ router.put('/Update', async (req, res) => {
 
 			dict['key'] = 'testing';
 
-			console.log(dict);
-
 			const profession = '';
 			if (Profession !== undefined) {
 				update['Profession'] = Profession;
@@ -201,12 +199,14 @@ router.put('/Update', async (req, res) => {
 				console.log(update);
 			}
 
+			let firstName = '';
 			if (FirstName !== undefined) {
+				firstName = FirstName;
 				update['FirstName'] = FirstName;
 			}
-
-			const lastName = '';
+			let lastName = '';
 			if (LastName !== undefined) {
+				lastName = LastName;
 				update['LastName'] = LastName;
 			}
 			const country = '';
@@ -214,14 +214,30 @@ router.put('/Update', async (req, res) => {
 				update['Country'] = Country;
 			}
 
-			const firstName = '';
 			const profileDescription = '';
 			if (ProfileDescription !== undefined) {
 				update['ProfileDescription'] = ProfileDescription;
 			}
 
-			console.log('Update is');
-			console.log(update);
+			const RetreivedUser = await UserDB.findById(id);
+			let Fullname = '';
+
+			const FullName = RetreivedUser.FirstName + ' ' + RetreivedUser.LastName;
+
+			if (firstName != '' || lastName != '') {
+				Fullname = firstName + ' ' + lastName;
+			}
+			const filter3 = {
+				UserName: FullName,
+			};
+
+			var update3 = {};
+
+			if (Fullname != '') {
+				update3['UserName'] = Fullname;
+			}
+
+			const UpdatedComments = await CommentDB.updateMany(filter3, update3);
 
 			const Updated = await UserDB.findOneAndUpdate(filter, update);
 		} else {
@@ -249,12 +265,15 @@ router.put('/Update', async (req, res) => {
 			if (Profession !== undefined) {
 				update['Profession'] = Profession;
 			}
-			const firstName = '';
+
+			let firstName = '';
 			if (FirstName !== undefined) {
+				firstName = FirstName;
 				update['FirstName'] = FirstName;
 			}
-			const lastName = '';
+			let lastName = '';
 			if (LastName !== undefined) {
+				lastName = LastName;
 				update['LastName'] = LastName;
 			}
 			const country = '';
@@ -271,14 +290,16 @@ router.put('/Update', async (req, res) => {
 				update['img'] = FinalPath;
 			}
 
-			console.log('Update is');
-			console.log(update);
-
-			const Updated = await UserDB.findOneAndUpdate(filter, update);
-
 			const RetreivedUser = await UserDB.findById(id);
 
+			const Updated = await UserDB.findOneAndUpdate(filter, update);
 			const FullName = RetreivedUser.FirstName + ' ' + RetreivedUser.LastName;
+
+			let Fullname = '';
+
+			if (firstName != '' || lastName != '') {
+				Fullname = firstName + ' ' + lastName;
+			}
 
 			Updated.posts.forEach((post) => {
 				//	if (post.toString() === id) {
@@ -290,14 +311,23 @@ router.put('/Update', async (req, res) => {
 
 				//}
 			});
+			console.log('The old name  is ' + FullName);
+			console.log('The new name is ' + Fullname);
 			const filter3 = {
 				UserName: FullName,
 			};
 
 			var update3 = {};
-			console.log('Full Name is ');
+			console.log('Full Name1 is ');
 			console.log(FullName);
+			console.log('Full Name2 is ');
+			console.log(Fullname);
 			update3['UserImg'] = FinalPath;
+
+			if (Fullname != '') {
+				update3['UserName'] = Fullname;
+			}
+
 			const UpdatedComments = await CommentDB.updateMany(filter3, update3);
 			console.log(UpdatedComments);
 		}

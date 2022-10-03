@@ -52,11 +52,28 @@ const OtherUsProfile = () => {
 						<CardMedia
 							className='card'
 							component='img'
+							height='250'
+							width='140'
 							image={require(`../Images/${OtherUser.img}`)}
 							//src={require(`${image02}`)}
 							//alt='profile picture'
 							id='image'
-							sx={{ width: 600, height: 300, imageResolution: '300dpi' }}
+							sx={{
+								width: {
+									xl: '100%',
+									lg: '100%',
+									md: '100%',
+									sm: '100%',
+									xs: '100%',
+								},
+								height: {
+									xl: 300,
+									lg: 300,
+									md: 300,
+									sm: 300,
+									xs: 300,
+								},
+							}}
 						/>
 						<Box
 							sx={{

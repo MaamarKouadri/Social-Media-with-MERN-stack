@@ -92,6 +92,7 @@ export default function Comments(props) {
 							<Avatar
 								alt='Remy Sharp'
 								src={require(`../Images/${props.Object.UserImg}`)}
+								sx={{ border: '2px solid black' }}
 							/>
 						</Grid>
 						<Grid justifyContent='left' item xs zeroMinWidth>
