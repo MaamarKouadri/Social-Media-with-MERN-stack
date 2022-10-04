@@ -19,7 +19,7 @@ import Grid from '@mui/material/Grid';
 import { TableRow } from '@mui/material';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { color } from '@mui/system';
+import { color, fontSize } from '@mui/system';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -47,6 +47,8 @@ import {
 
 import Alert from '@mui/material/Alert';
 import { ErrorBoundary } from 'react-error-boundary';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 import { LogoutUser } from '../Store/LoginSlice';
 import { DeleteUser } from '../Store/userAction';
@@ -325,13 +327,6 @@ export default function UpdateAccount() {
 							variant='h5'
 							sx={{
 								color: '#3483eb',
-								fontSize: {
-									xl: '100%',
-									lg: '100%',
-									md: '90%',
-									sm: '90%',
-									xs: '90%',
-								},
 							}}>
 							Update Profile Form
 						</Typography>
@@ -401,17 +396,15 @@ export default function UpdateAccount() {
 							/>
 						</FormControl>
 
-						<FormControl>
-							<TextField
-								id='standard-select-currency-native'
-								select
+						<FormControl variant=''>
+							<Select
+								labelId='country-select-label'
+								id='country-select'
 								value={Country}
-								className='FieldTexts'
-								onChange={(e) => {
-									handleCountry(e);
-								}}
+								displayEmpty
 								sx={{
 									m: 1,
+									display: 'flex',
 									width: {
 										xl: '25ch',
 										lg: '25ch',
@@ -420,16 +413,32 @@ export default function UpdateAccount() {
 										xs: '17ch',
 									},
 								}}
-								SelectProps={{
-									native: true,
-								}}
-								helperText='Please select your Country'>
-								{countries.map((option) => (
-									<option key={option} value={option}>
-										{option}
-									</option>
-								))}
-							</TextField>
+								onChange={(e) => {
+									handleCountry(e);
+								}}>
+								<MenuItem value=''>
+									<em>Select a country</em>
+								</MenuItem>
+								{countries.map((c) => {
+									return (
+										<MenuItem
+											value={c}
+											key={c}
+											sx={{
+												width: '15ch',
+												fontSize: {
+													xl: 15,
+													lg: 15,
+													md: 15,
+													sm: 12,
+													xs: 9,
+												},
+											}}>
+											{c}
+										</MenuItem>
+									);
+								})}
+							</Select>
 						</FormControl>
 					</Grid>
 					<Grid sx={{ width: '100%', px: 2 }}>

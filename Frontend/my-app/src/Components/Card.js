@@ -49,6 +49,7 @@ import {
 	getUserFail,
 } from '../Store/userSlice';
 import { getUserProfile } from '../Store/userAction';
+import Skeleton from '@mui/material/Skeleton';
 
 const ExpandMore = styled((props) => {
 	const { expand, ...other } = props;
@@ -197,6 +198,9 @@ export default function RecipeReviewCard(props) {
 	};
 
 	const SubmitComment = async () => {
+		document.getElementById('commentField').value = '';
+
+		//document.getElementsByClassName('commentText').value = '';
 		const now = new Date();
 		const Body = {
 			UserImg: User.img,
@@ -210,9 +214,10 @@ export default function RecipeReviewCard(props) {
 		console.log(Body);
 		try {
 			const res = await SendComment(Body);
-			document.getElementById('commentField').value = '';
+
 			console.log('Comment has been added');
 			console.log(res);
+			document.getElementById('commentField').value = '';
 			FetchComments();
 		} catch (err) {
 			console.log(err);
@@ -279,15 +284,20 @@ export default function RecipeReviewCard(props) {
 					subheader={'Posted ' + createdAt}
 				/>
 			</ErrorBoundary>
-			<CardMedia
-				component='img'
-				height='100%'
-				sx={{
-					objectFit: 'cover',
-				}}
-				src={imageUrl}
-				alt='Paella dish'
-			/>
+			{imageUrl ? (
+				<CardMedia
+					component='img'
+					height='100%'
+					sx={{
+						objectFit: 'cover',
+					}}
+					src={imageUrl}
+					alt='Paella dish'
+				/>
+			) : (
+				<Skeleton variant='rectangular' height={'100%'} />
+			)}
+
 			<CardContent>
 				<Typography variant='body1' color='black'>
 					{content}
@@ -329,6 +339,7 @@ export default function RecipeReviewCard(props) {
 					sx={{
 						display: 'flex',
 						flexDirection: 'column',
+						overflowY: 'scroll',
 					}}>
 					<Typography variant='h6' color='black' sx={{ pb: 2 }}>
 						Comments Section
@@ -348,7 +359,7 @@ export default function RecipeReviewCard(props) {
 						id='commentField'
 						label='Add a comment'
 						placeholder='Add a comment'
-						className='FieldTexts'
+						className='commentText'
 						multiline
 						rows={3}
 						sx={{ m: 2 }}

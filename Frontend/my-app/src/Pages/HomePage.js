@@ -31,6 +31,8 @@ import { useNavigate } from 'react-router-dom';
 import { LoadUsersIDs } from '../Store/userSlice';
 import { VerifyEmail, GetAllUsersIDs } from '../Store/userLogin';
 import { LoginPending } from '../Store/LoginSlice';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 import Alert from '@mui/material/Alert';
 
@@ -530,35 +532,49 @@ export default function HomePage() {
 							</IconButton>
 						</Grid>
 					</FormControl>
-					<FormControl sx={{ py: 1 }}>
-						<TextField
-							id='standard-select-currency-native'
-							select
+					<FormControl variant=''>
+						<Select
+							labelId='country-select-label'
+							id='country-select'
 							value={Country}
-							className='FieldTexts'
-							onChange={(e) => {
-								handleCountry(e);
-							}}
+							displayEmpty
 							sx={{
-								m: 1,
+								m: 2,
+								display: 'flex',
 								width: {
-									xl: '20ch',
-									lg: '20ch',
-									md: '25ch',
+									xl: '25ch',
+									lg: '25ch',
+									md: '20ch',
 									sm: '20ch',
-									xs: '19ch',
+									xs: '17ch',
 								},
 							}}
-							SelectProps={{
-								native: true,
-							}}
-							helperText='Please select your Country'>
-							{countries.map((option) => (
-								<option key={option} value={option}>
-									{option}
-								</option>
-							))}
-						</TextField>
+							onChange={(e) => {
+								handleCountry(e);
+							}}>
+							<MenuItem value=''>
+								<em>Select a country</em>
+							</MenuItem>
+							{countries.map((c) => {
+								return (
+									<MenuItem
+										value={c}
+										key={c}
+										sx={{
+											width: '15ch',
+											fontSize: {
+												xl: 15,
+												lg: 15,
+												md: 15,
+												sm: 12,
+												xs: 9,
+											},
+										}}>
+										{c}
+									</MenuItem>
+								);
+							})}
+						</Select>
 					</FormControl>
 				</Grid>
 				<Grid sx={{ pb: 2 }}>

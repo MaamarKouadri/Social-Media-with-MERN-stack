@@ -7,7 +7,6 @@ import RightDrawer from '../Components/RightDrawer';
 import Box from '@mui/material/Box';
 import InputBox from '../Components/InputBox';
 import Account from '../Components/Account';
-import ChatOnline from '../Components/ChatOnline';
 import { styled } from '@mui/material/styles';
 
 // Make sure to know how to center the box
@@ -16,7 +15,7 @@ const AccountSettings = () => {
 	const Root = styled('div')(({ theme }) => ({
 		padding: theme.spacing(1),
 		[theme.breakpoints.up('xs')]: {
-			//	backgroundColor: 'red',
+			//backgroundColor: 'red',
 			width: '90%',
 			height: '90%',
 		},
@@ -26,7 +25,7 @@ const AccountSettings = () => {
 			height: '100%',
 		},
 		[theme.breakpoints.up('md')]: {
-			//	backgroundColor: 'green',
+			//backgroundColor: 'green',
 			width: '100%',
 			height: '100%',
 		},
@@ -36,7 +35,7 @@ const AccountSettings = () => {
 			height: '100%',
 		},
 		[theme.breakpoints.up('xl')]: {
-			//	backgroundColor: 'orange',
+			//backgroundColor: 'orange',
 			width: '100%',
 			height: '100%',
 		},

@@ -11,7 +11,6 @@ import FriendsList from './Pages/FriendsList';
 import PersonalProfile from './Pages/PersonalProfile';
 import LogInPage from './Pages/LogInPage';
 import AccountSettings from './Pages/AccountSettings';
-import MessengerPage from './Pages/MessengerPage';
 
 import HomePage from './Pages/HomePage';
 import OtherUserProfile from './Pages/OtherUserProfile';
@@ -25,7 +24,7 @@ const App = () => {
 				<Routes>
 					<Route path='/' element={<LogInPage />} />
 					<Route path='/HomePage' element={<SignUpPage />} />
-					<Route path='/Messenger' element={<MessengerPage />} />
+
 					<Route path='/Feed' element={<Feed />} />
 					<Route path='/FriendsList' element={<FriendsList />} />
 					<Route path='/AccountSettings' element={<AccountSettings />} />

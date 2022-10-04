@@ -68,9 +68,9 @@ const OtherUsProfile = () => {
 								},
 								height: {
 									xl: 300,
-									lg: 300,
-									md: 300,
-									sm: 300,
+									lg: 500,
+									md: 450,
+									sm: 350,
 									xs: 300,
 								},
 							}}

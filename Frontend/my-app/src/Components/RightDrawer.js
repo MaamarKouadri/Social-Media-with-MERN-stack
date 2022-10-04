@@ -27,7 +27,7 @@ import ListOfEvents from './ListOfEvents';
 import Profile from './Profile';
 import Friends from './Friends';
 import Account from './Account';
-import MessengerBox from '../Components/MessengerBox';
+
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -86,7 +86,6 @@ export default function RightDrawer(props) {
 				{Main === 'Profile' && <Profile />}
 				{Main === 'Friends' && <Friends />}
 				{Main === 'Account' && <Account />}
-				{Main === 'Messenger' && <MessengerBox />}
 			</Box>
 		</Box>
 	);
