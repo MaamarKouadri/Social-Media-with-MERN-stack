@@ -75,7 +75,7 @@ console.logs were used for the purpose of debugging in this project , you may ig
 
 4.	Install all dependencies, by typing the following in the terminal, you must do it for the outside path, the frontend, and the backend since they all have package.json files with their own dependencies.
 
- # with npm
+ with npm
  npm install
      
 \Social-Media-with-MERN-stack-main\Social-Media-with-MERN-stack-main\Frontend\my-app\npm install
