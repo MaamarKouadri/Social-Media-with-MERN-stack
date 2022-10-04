@@ -65,3 +65,39 @@ Node.js is an open-source, cross-platform, back-end JavaScript runtime environme
 
 console.logs were used for the purpose of debugging in this project , you may ignore them.
 
+
+ ### Project Usage
+ 
+1.	Fork the repo and then clone it or download it. Use Visual Studio Code preferably.
+ 
+ 
+2.	Make sure to have node js set up on your computer, https://nodejs.org/en/
+
+4.	Install all dependencies, by typing the following in the terminal, you must do it for the outside path, the frontend, and the backend since they all have package.json files with their own dependencies.
+
+ # with npm
+ npm install
+     
+\Social-Media-with-MERN-stack-main\Social-Media-with-MERN-stack-main\Frontend\my-app\npm install
+
+\Social-Media-with-MERN-stack-main\Social-Media-with-MERN-stack-main\Backend\npm install
+
+\Social-Media-with-MERN-stack-main\Social-Media-with-MERN-stack-main\npm install
+         
+4.	You must run the app on port 5000 or else you can modify this line in server.js in the Backend folder
+     app.listen(5000, () => {
+    console.log('Server started on  port 5000'); });
+
+5.	Go to the .env file and change the Mongo URI once you have your database link  set up , follow the steps at the following link https://www.mongodb.com/cloud/atlas/register and once you have your own URI you can modify the variable  MONGO_URI in the .env file in the backend folder 
+
+6.	Start the frontend server type cd Frontend/my-app  in the terminal then press enter 
+then type npm start 
+
+\Social-Media-with-MERN-stack-main\Social-Media-with-MERN-stack-main\Frontend\my-app\ npm start 
+
+
+7.	Start the Backend serve type cd Backend in the terminal then type npm run nodemon and press enter.
+
+\Social-Media-with-MERN-stack-main\Social-Media-with-MERN-stack-main\Backend \ npm run nodemon
+
+
