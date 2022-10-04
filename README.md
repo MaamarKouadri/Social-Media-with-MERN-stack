@@ -1,5 +1,9 @@
 ﻿# Social-Media-with-MERN
  
+ Project Demo Video
+ 
+ [Project Demo Video](https://youtu.be/N2-7BHr0Q-4)
+ 
  ### Project Description and purpose
  
 This project was not meant to be a social app per say but more as a tool to demonstrate the usage of the MERN stack and mostly how we can build, create, and use own RESTful APIs . The user can create a profile, log in, post on the feed, a post is made of a picture, a title, and a description, each post has also a comments section and a like button system. The user can also modify his or her own profile which contains a profile pic and a small description of the user as well.  You will notice that the app overall is quite concise and pragmatic, where most of the action is in the Feed page that serves to consult all the posts of the users and to discuss between themselves. Again, the goal was not to code  a full social media app per say, but rather to demonstrate how the MERN stack allows us to produce a full stack app from scratch. MERN stands for MongoDB, Express, React, Node, it is also important to mention that I also have extensively used Redux, mainly Redux toolkit to handle the global variables within the app. 
