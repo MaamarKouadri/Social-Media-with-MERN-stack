@@ -39,6 +39,7 @@ Redux is an open-source JavaScript library for managing and centralizing applica
 •	Redux Dev Tools for efficient debugging 
 
 ### Backend:  JavaScript ,MongoDB/Mongoose 
+
 Express js:  Express.js, or simply Express, is a back-end web application framework for building RESTful APIs with Node.js. This framework was the backbone of this project and the most important part, it allowed us to set the different endpoints and routes of the Restful API, also manage the requests sent from the Frontend, and send back the appropriate Response from the backend. The RESTful API acted as a gateway between the Frontend and Backend. 
 
 #### Programming Concepts:
@@ -52,7 +53,7 @@ Express js:  Express.js, or simply Express, is a back-end web application framew
 
 ### MongoDB/Mongoose :
 
-MongoDB is a source-available cross-platform document-oriented database program. Classified as a NoSQL database program. That is the main advantage, it is nonrelational and very efficient to implement which is a contrast with traditional SQL databases. Since I am working in a JavaScript / Node js environment I have used Mongoose which is a library in node js that allows us to code CRUD operations to manipulate the database.
+MongoDB is a source-available cross-platform document-oriented database program. Classified as a NoSQL database program. That is the main advantage, it is non relational and very efficient to implement which is a contrast with traditional SQL databases. Since I am working in a JavaScript / Node js environment I have used Mongoose which is a library in node js that allows us to code CRUD operations to manipulate the database.
 
 #### Programming Concepts:
 
