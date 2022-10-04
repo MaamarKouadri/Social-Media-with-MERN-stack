@@ -54,5 +54,6 @@ MongoDB is a source-available cross-platform document-oriented database program.
 
 •	Collection/Schema Design that holds the data  
 
-### Node js: Node.js is an open-source, cross-platform, back-end JavaScript runtime environment that runs on a JavaScript Engine and executes JavaScript code outside a web browser. This is where I set up my server to run the app.
+### Node js:
+Node.js is an open-source, cross-platform, back-end JavaScript runtime environment that runs on a JavaScript Engine and executes JavaScript code outside a web browser. This is where I set up my server to run the app.
 
