@@ -16,7 +16,7 @@ const AccountSettings = () => {
 	const Root = styled('div')(({ theme }) => ({
 		padding: theme.spacing(1),
 		[theme.breakpoints.up('xs')]: {
-			//backgroundColor: 'red',
+			//	backgroundColor: 'red',
 			width: '90%',
 			height: '90%',
 		},
@@ -26,7 +26,7 @@ const AccountSettings = () => {
 			height: '100%',
 		},
 		[theme.breakpoints.up('md')]: {
-			//backgroundColor: 'green',
+			//	backgroundColor: 'green',
 			width: '100%',
 			height: '100%',
 		},
@@ -36,7 +36,7 @@ const AccountSettings = () => {
 			height: '100%',
 		},
 		[theme.breakpoints.up('xl')]: {
-			//backgroundColor: 'orange',
+			//	backgroundColor: 'orange',
 			width: '100%',
 			height: '100%',
 		},

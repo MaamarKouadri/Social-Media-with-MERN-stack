@@ -281,7 +281,7 @@ export default function RecipeReviewCard(props) {
 			</ErrorBoundary>
 			<CardMedia
 				component='img'
-				height='200'
+				height='100%'
 				sx={{
 					objectFit: 'cover',
 				}}

@@ -294,35 +294,45 @@ export default function UpdateAccount() {
 							xs: 400,
 						},
 						height: {
-							xl: 570,
-							lg: 560,
-							md: 580,
-							sm: 580,
-							xs: 650,
+							xl: '100%',
+							lg: '100%',
+							md: '100%',
+							sm: '100%',
+							xs: '100%',
 						},
 					}}>
 					{ErrorMessage !== null && (
-						<Alert
-							severity='error'
+						<Typography
 							sx={{
-								m: 2,
-								width: {
-									xl: '60ch',
-									lg: '60ch',
-									md: '40ch',
-									sm: '40ch',
-									xs: '30ch',
+								backgroundColor: ' #ff9999',
+								fontSize: {
+									xl: '100%',
+									lg: '100%',
+									md: '80%',
+									sm: '70%',
+									xs: '60%',
 								},
 							}}>
 							{ErrorMessage}
-						</Alert>
+						</Typography>
 					)}
 					<Box
 						sx={{
 							display: 'flex',
-							flexDirection: 'row',
+							flexDirection: 'column',
 						}}>
-						<Typography variant='h5' sx={{ color: '#3483eb' }}>
+						<Typography
+							variant='h5'
+							sx={{
+								color: '#3483eb',
+								fontSize: {
+									xl: '100%',
+									lg: '100%',
+									md: '90%',
+									sm: '90%',
+									xs: '90%',
+								},
+							}}>
 							Update Profile Form
 						</Typography>
 					</Box>
@@ -338,7 +348,7 @@ export default function UpdateAccount() {
 									lg: '25ch',
 									md: '20ch',
 									sm: '20ch',
-									xs: '15ch',
+									xs: '17ch',
 								},
 
 								color: 'white',
@@ -358,7 +368,7 @@ export default function UpdateAccount() {
 									lg: '25ch',
 									md: '20ch',
 									sm: '20ch',
-									xs: '15ch',
+									xs: '17ch',
 								},
 							}}
 							onChange={(e) => {
@@ -382,7 +392,7 @@ export default function UpdateAccount() {
 										lg: '25ch',
 										md: '20ch',
 										sm: '20ch',
-										xs: '15ch',
+										xs: '17ch',
 									},
 								}}
 								onChange={(e) => {
@@ -407,7 +417,7 @@ export default function UpdateAccount() {
 										lg: '25ch',
 										md: '20ch',
 										sm: '20ch',
-										xs: '15ch',
+										xs: '17ch',
 									},
 								}}
 								SelectProps={{
@@ -479,6 +489,13 @@ export default function UpdateAccount() {
 								href='#contained-buttons'
 								sx={{
 									marginInline: 2,
+									fontSize: {
+										xl: 18,
+										lg: 15,
+										md: 15,
+										sm: 15,
+										xs: 10,
+									},
 								}}
 								onClick={() => {
 									MakeApiCall();
@@ -490,6 +507,13 @@ export default function UpdateAccount() {
 								href='#contained-buttons'
 								sx={{
 									marginInline: 2,
+									fontSize: {
+										xl: 18,
+										lg: 15,
+										md: 15,
+										sm: 15,
+										xs: 10,
+									},
 								}}
 								onClick={() => {
 									DeleteTheUser();
