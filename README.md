@@ -1,6 +1,8 @@
 ﻿# Social-Media-with-MERN
  
 Click in the link bellow to see the Project demo
+
+
  
  [Project Demo Video](https://youtu.be/N2-7BHr0Q-4)
  
@@ -60,4 +62,6 @@ MongoDB is a source-available cross-platform document-oriented database program.
 
 ### Node js:
 Node.js is an open-source, cross-platform, back-end JavaScript runtime environment that runs on a JavaScript Engine and executes JavaScript code outside a web browser. This is where I set up my server to run the app.
+
+console.logs were used for the purpose of debugging in this project , you may ignore them.
 
